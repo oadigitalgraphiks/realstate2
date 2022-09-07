@@ -1,0 +1,76 @@
+{
+  "name": "Manage Menu",
+
+  "unique_identifier": "manage_menu",
+
+  "version": "1",
+
+  "minimum_item_version": "1",
+
+  "addon_banner": "manage_menu.png",
+
+  "sql_path": "/addons/manage_menu/sql/",
+
+  "directory": [
+    {
+      "name": ["resources/views/manage_menu/"]
+    }
+  ],
+
+  "files": [
+    {
+      "root_directory": "addons/manage_menu/controllers/MenuController.php",
+      "update_directory": "app/Http/Controllers/MenuController.php"
+    },
+
+    {
+      "root_directory": "addons/manage_menu/controllers/MenuController2.php",
+      "update_directory": "app/Http/Controllers/MenuController2.php"
+    },
+
+    {
+      "root_directory": "addons/manage_menu/routes/manage_route.php",
+      "update_directory": "routes/manage_route.php"
+    },
+
+    {
+      "root_directory": "addons/manage_menu/manage_menu/edit.blade.php",
+      "update_directory": "resources/views/manage_menu/edit.blade.php"
+    },
+
+    {
+      "root_directory": "addons/manage_menu/manage_menu/index.blade.php",
+      "update_directory": "resources/views/manage_menu/index.blade.php"
+    },
+
+    {
+      "root_directory": "addons/manage_menu/model/Menu.php",
+      "update_directory": "app/Models/Menu.php"
+    },
+
+    {
+      "root_directory": "addons/manage_menu/model/MenuTranslation.php",
+      "update_directory": "app/Models/MenuTranslation.php"
+    },
+
+    {
+      "root_directory": "addons/manage_menu/model/Mainmenu.php",
+      "update_directory": "app/Models/Mainmenu.php"
+    },
+
+    {
+      "root_directory": "addons/manage_menu/Utility/MenuUtility.php",
+      "update_directory": "app/Utility/MenuUtility.php"
+    },
+
+    {
+      "root_directory"    : "addons/manage_menu/assets/manage_menu.png",
+      "update_directory"  : "public/assets/addon/images/manage_menu.png"
+    },
+
+    {
+      "root_directory"    : "addons/manage_menu/assets/menus",
+      "update_directory"  : "public/assets/addon/"
+    }
+  ]
+}

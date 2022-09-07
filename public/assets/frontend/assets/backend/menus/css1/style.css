@@ -1,0 +1,390 @@
+@import url("reset.css");
+
+ 
+
+/* LAYOUT
+------------------------------------------------------------------------- */
+     
+/* BOXES
+------------------------------------------------------------------------- */
+.box {
+    border: 1px solid #e5e5e5;
+    background: #fafafa;
+    margin-bottom: 10px;
+    margin-top: 8px;
+}
+
+.box h2 {
+    margin: 0;
+    font: 15px Tahoma, sans-serif;
+    color: #3276B1;
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-feature-settings: normal;
+}
+
+.box > div {
+    padding: 10px; 
+    margin-bottom: 5px;
+	font-size: 14px;
+    line-height: 1.3;
+}
+
+/* FORMS
+------------------------------------------------------------------------- */
+form p {
+    clear: left;
+    margin-bottom: 0;
+    padding: 3px 0;
+    width: 100%;
+}
+
+form p label {
+    display: block;
+    cursor: pointer;
+    font: 11px Tahoma, sans-serif;
+    font-weight: bold;
+    color: #555;
+    vertical-align: middle;
+    padding: 4px 2px;
+    margin-right: 10px;
+}
+
+form p small {
+    display: block;
+    font-size: 10px;
+    padding: 0 2px;
+    color: #aaa;
+}
+
+form.inline p label {
+    float: left;
+    text-align: right;
+    width: 45px;
+    padding: 4px 0;
+}
+
+form.inline p.buttons {
+    margin-left: 55px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form select,
+form textarea {
+    border: 1px solid #ddd;
+    padding: 5px 4px;
+}
+
+form select {
+    padding: 3px;
+}
+
+#menu-title, #menu-url, #menu-class {
+    width: 90%;
+}
+
+#edit-menu-title, #edit-menu-url, #edit-menu-class {
+    width: 70%;
+}
+
+#menu-group-title {
+    width: 70%;
+}
+
+
+/* menu group
+------------------------------------------------------------------------- */
+ul#menu-group {
+    float: left; 
+    margin-bottom: 20px;
+    background: #fff;
+    width: 100%;
+    border-bottom: 5px solid #666;
+}
+
+ul#menu-group li {
+    float: left;
+}
+
+ul#menu-group li#add-group {
+    float: right;
+}
+
+ul#menu-group li#add-group a {
+    margin-right: 0;
+}
+
+ul#menu-group li a {
+    display: block;
+    padding: 5px 10px;
+    margin: 5px 5px 0 0;
+    color: #888;
+    background: #eee;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#eee), to(#e4e4e4));
+    background: -moz-linear-gradient(#eee, #e4e4e4);
+    background: linear-gradient(#eee, #e4e4e4);
+}
+
+ul#menu-group li a:hover {
+    color: #555;
+    background: #eee;
+    text-decoration: unset;
+}
+
+ul#menu-group li.current a {
+    color: #fff;
+    background: #616161;
+
+}
+
+/*Edit Form*/
+#edit-form {
+    display: none;
+    border: 1px solid #ccc;
+    background: #fcfcfc;
+    border-top: none;
+    padding: 10px 0;
+}
+
+#menu-group-add {
+    display: none;
+}
+
+/* nested sortable
+------------------------------------------------------------------------- */
+.ns-helper {
+    border: 1px dashed #e3e3e3;
+    background: #e6e6e6;
+    border-radius: 5px;
+}
+
+.sortable {
+    margin: 5px 0;
+    clear: both;
+}
+
+.sortable img {
+    vertical-align: bottom;
+}
+
+#ns-header {
+    padding: 8px 10px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #fff;
+    background: #616161 !important;
+    border-radius: unset !important;
+}
+
+#ns-header div {
+    border: none;
+}
+
+#ns-footer {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.ns-row {
+    font: 11px Tahoma, sans-serif;
+    line-height: 18px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #cfcfcf;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#f9f9f9), to(#f5f5f5));
+    background: -moz-linear-gradient(#f9f9f9, #f5f5f5);
+    background: linear-gradient(#f9f9f9, #f5f5f5);
+
+    position: relative;
+}
+
+.ns-row div {
+    border-left: 1px solid #d5d5d5;
+    height: 18px;
+    overflow: hidden;
+    position: absolute;
+    top: 6px;
+    padding-left: 10px;
+}
+
+div.ns-title {
+    position: static;
+    border: none;
+    font-weight: bold;
+    padding-left: 0;
+    cursor: move;
+}
+
+.actions {
+    width: 70px;
+    right: 12px;
+
+}
+
+.ns-class {
+    width: 100px;
+    right: 60px;
+}
+
+.ns-url {
+    width: 150px;
+    right: 300px;
+}
+
+.actions a {
+    margin-left: 10px;
+    alignment: center;
+}
+
+/* error
+------------------------------------------------------------------------- */
+span.error {
+    color: red;
+}
+
+/* loading
+------------------------------------------------------------------------- */
+#loading {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 44%;
+    width: 120px;
+    text-align: center;
+    background: #444;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 14px;
+    padding: 3px 10px;
+    -webkit-border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    border-radius: 0 0 5px 5px;
+    z-index: 10003;
+}
+
+#loading img {
+    vertical-align: text-bottom;
+    margin-right: 2px;
+}
+
+/* modal box
+------------------------------------------------------------------------- */
+#gbox {
+    position: absolute;
+    position: fixed;
+    display: none;
+    z-index: 10002;
+    width: 370px;
+    border: 1px solid #acacac;
+    border-radius: 5px;
+    color: #222;
+    background: #fff;
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+. well;
+}
+
+#gbox_header {
+    padding: 5px 10px;
+    color: #000;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #fff;
+}
+
+#gbox h2 {
+    font: 15px Arial, sans-serif;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 1px dashed #eaeaea;
+    margin: 0 0 10px;
+    padding: 0 0 8px;
+}
+
+#gbox_content {
+    padding: 15px 12px;
+    overflow: auto;
+    max-height: 400px;
+}
+
+#gbox_footer {
+    padding: 10px 15px;
+    border-top: 1px solid #eee;
+    background: #f9f9f9;
+    text-align: right;
+    border-radius: 5px;
+}
+
+#gbox_form input[type="text"] {
+    width: 95%;
+. group-control;
+}
+
+#gbox_bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.6;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+    filter: alpha(opacity=60);
+    z-index: 10001;
+    cursor: pointer;
+}
+
+#gbox_loading {
+    font-size: 18px;
+    color: #aaa;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+#gbox input[type="text"] {
+    width: 100%;
+    border-radius: 5px;
+}
+
+
+/* new library update
+-------------------------- */
+#easymm ul {
+    margin-left: 30px;
+}
+
+.ns-helper {
+    margin: 5px 0;
+}
+
+.ns-row div {
+    top: 7px;
+}
+
+/*Top Header*/
+header {
+    background: #616161;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+}
+
+.top-header-text {
+    margin-top: 15px;
+    color: #ffffff;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+
+}
+
+/*Current menu*/
+.edit-group-buttons{
+    margin-top: 5px;
+}
+
