@@ -24,10 +24,12 @@ class SellerController extends Controller
     {
         $sort_search = null;
         $approved = null;
-        $sellers = Seller::whereIn('user_id', function ($query) {
-            $query->select('id')
-                ->from(with(new User)->getTable());
-        })->orderBy('created_at', 'desc');
+        $sellers = Seller::with('user.shop')->orderBy('created_at', 'desc');
+        // dd($sellers);
+        // $sellers = Seller::whereIn('user_id', function ($query) {
+        //     $query->select('id')
+        //         ->from(with(new User)->getTable());
+        // })->orderBy('created_at', 'desc');
 
         if ($request->has('search')) {
             $sort_search = $request->search;

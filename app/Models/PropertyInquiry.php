@@ -4,19 +4,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App;
 
-class PropertyReport extends Model
+class PropertyInquiry extends Model
 {
-    protected $table = "property_reports";
+    protected $table = "property_contact_forms";
     protected $guarded = [];
 
     public function getTranslation($field = '', $lang = false){
         $lang = $lang == false ? App::getLocale() : $lang;
-        $property_report_translation = $this->property_report_translations->where('lang', $lang)->first();
-        return $property_report_translation != null ? $property_report_translation->$field : $this->$field;
+        $property_inquiry_translation = $this->property_inquiry_translations->where('lang', $lang)->first();
+        return $property_inquiry_translation != null ? $property_inquiry_translation->$field : $this->$field;
     }
 
-    public function property_report_translations(){
-    	return $this->hasMany(PropertyReportTranslation::class);
+    public function property_inquiry_translations(){
+    	return $this->hasMany(PropertyInquiryTranslation::class);
     }
 
     public function property()

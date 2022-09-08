@@ -86,6 +86,14 @@ class RouteServiceProvider extends ServiceProvider
 
      $this->propertyBathWebRoutes();
 
+     $this->propertyConditionWebRoutes();
+     
+     $this->propertyUnitsWebRoutes();
+
+     $this->propertyReportsWebRoutes();
+
+     $this->propertyInquiriesWebRoutes();
+
      $this->propertyTourTypeWebRoutes();
 
      $this->propertyAmenityWebRoutes();
@@ -324,6 +332,61 @@ class RouteServiceProvider extends ServiceProvider
        ->group(base_path('routes/property_baths.php'));
   }
 
+  /**
+   * Define the "Product Type System" routes for the application.
+   *
+   * These routes all receive session state, CSRF protection, etc.
+   *
+   * @return void
+   */
+  protected function propertyConditionWebRoutes()
+  {
+    Route::middleware('web')
+       ->namespace($this->namespace)
+       ->group(base_path('routes/property_conditions.php'));
+  }
+
+  /**
+   * Define the "Product Type System" routes for the application.
+   *
+   * These routes all receive session state, CSRF protection, etc.
+   *
+   * @return void
+   */
+  protected function propertyUnitsWebRoutes()
+  {
+    Route::middleware('web')
+       ->namespace($this->namespace)
+       ->group(base_path('routes/property_units.php'));
+  }
+
+  /**
+   * Define the "Product Inquiry System" routes for the application.
+   *
+   * These routes all receive session state, CSRF protection, etc.
+   *
+   * @return void
+   */
+  protected function propertyInquiriesWebRoutes()
+  {
+    Route::middleware('web')
+       ->namespace($this->namespace)
+       ->group(base_path('routes/property_inquiries.php'));
+  }
+
+  /**
+   * Define the "Product Report System" routes for the application.
+   *
+   * These routes all receive session state, CSRF protection, etc.
+   *
+   * @return void
+   */
+  protected function propertyReportsWebRoutes()
+  {
+    Route::middleware('web')
+       ->namespace($this->namespace)
+       ->group(base_path('routes/property_reports.php'));
+  }
   /**
    * Define the "Product Type System" routes for the application.
    *
