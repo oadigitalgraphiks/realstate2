@@ -13,7 +13,7 @@
                     data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                     class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                     <!--begin::Title-->
-                    <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Property conditions</h1>
+                    <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Signup Options</h1>
                     <!--end::Title-->
                     <!--begin::Separator-->
                     <span class="h-20px border-gray-300 border-start mx-4"></span>
@@ -31,7 +31,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Property</li>
+                        <li class="breadcrumb-item text-muted">Agencies</li>
                         <!--end::Item-->
                         <!--begin::Item-->
                         <li class="breadcrumb-item">
@@ -39,7 +39,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Property conditions</li>
+                        <li class="breadcrumb-item text-muted">Signup Options</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -84,8 +84,8 @@
                             <!--end::Card title-->
                             <!--begin::Card toolbar-->
                             <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
-                                <a href="{{ route('property_conditions.create') }}" class="btn btn-primary">
-                                    {{ translate('Add New Property conditions') }}
+                                <a href="{{ route('agency_signup_options.create') }}" class="btn btn-primary">
+                                    {{ translate('Add New') }}
                                 </a>
                                 <!--end::Add product-->
                             </div>
@@ -106,7 +106,10 @@
                                             <th class="w-10px pe-2">
                                                 {{ translate('Sno.') }}
                                             </th>
-                                            <th class="text-center min-w-75px">{{ translate('Name') }}</th>
+                                            <th class="min-w-200px">{{ translate('Name') }}</th>
+                                            <th class="text-center min-w-75px">{{ translate('Parent') }}</th>
+                                            <th class="text-center min-w-75px">{{ translate('Slug') }}</th>
+                                            <th class="text-center min-w-75px">{{ translate('Order Level') }}</th>
                                             <th class="text-center min-w-150px">{{ translate('Actions') }}</th>
                                         </tr>
                                         <!--end::Table row-->
@@ -115,31 +118,62 @@
                                     <!--begin::Table body-->
                                     <tbody class="fw-bold text-gray-600">
                                         <!--begin::Table row-->
-                                        @foreach ($property_conditions as $key => $property_condition)
+                                        @foreach ($agency_signup_options as $key => $agency_signup_option)
                                             <tr>
                                                 <!--begin::Checkbox-->
                                                 <td class="text-center pe-0">
                                                     <span
-                                                        class="fw-bolder">{{$property_condition->id}}</span>
+                                                        class="fw-bolder">{{$agency_signup_option->id}}</span>
                                                 </td>
                                                 <!--begin::Category=-->
                                                 <td>
                                                     <div class="d-flex" style="justify-content: center">
                                                         <div class="ms-5">
                                                             <!--begin::Title-->
-                                                            <a href="{{ route('property_conditions.edit', ['id' => $property_condition->id, 'lang' => env('DEFAULT_LANGUAGE')]) }}"
+                                                            <a href="{{ route('agency_signup_options.edit', ['id' => $agency_signup_option->id, 'lang' => env('DEFAULT_LANGUAGE')]) }}"
                                                                 class="text-gray-800 text-hover-primary fs-5 fw-bolder mb-1"
                                                                 data-kt-ecommerce-property_type-filter="property_type_name">
                                                                 <div class="badge badge-light-success">
-                                                                    {{ $property_condition->getTranslation('name') }}</div>
+                                                                    {{ $agency_signup_option->name }}</div>
                                                             </a>
                                                             <!--end::Title-->
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <!--end::Category=-->
+                                                <td class="text-center pe-0">
+                                                    <span class="fw-bolder">@php
+                                                        $parent = $agency_signup_option->parents;
+                                                    @endphp
+                                                        @if ($parent != null)
+                                                            {{ $parent->name }}
+                                                        @else
+                                                            —
+                                                        @endif
+                                                    </span>
+                                                </td>
+                                                <td class="text-center pe-0">
+                                                    <span class="fw-bolder">
+                                                        @if ($agency_signup_option->slug != null)
+                                                            {{ $agency_signup_option->slug }}
+                                                        @else
+                                                            —
+                                                        @endif
+                                                    </span>
+                                                </td>
+                                                <td class="text-center pe-0">
+                                                    <span class="fw-bolder">
+                                                        @if ($agency_signup_option->sorting_id != null)
+                                                            {{ $agency_signup_option->sorting_id }}
+                                                        @else
+                                                            —
+                                                        @endif
+                                                    </span>
+                                                </td>
+                                                <!--end::SKU=-->
 
                                                 <td class="text-center">
-                                                    <a href="{{ route('property_conditions.edit', ['id' => $property_condition->id, 'lang' => env('DEFAULT_LANGUAGE')]) }}"
+                                                    <a href="{{ route('agency_signup_options.edit', ['id' => $agency_signup_option->id, 'lang' => env('DEFAULT_LANGUAGE')]) }}"
                                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
                                                         <span class="svg-icon svg-icon-3">
@@ -161,7 +195,7 @@
 
                                                     <a href="#"
                                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm confirm-delete"
-                                                        data-href="{{ route('property_conditions.destroy', $property_condition->id) }}">
+                                                        data-href="{{ route('agency_signup_options.destroy', $agency_signup_option->id) }}">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                         <span class="svg-icon svg-icon-3">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"

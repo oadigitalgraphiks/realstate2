@@ -42,6 +42,8 @@ class RouteServiceProvider extends ServiceProvider
   {
      $this->mapApiRoutes();
 
+     $this->mapAgencySignupOptionRoutes();
+
      $this->mapAdminRoutes();
 
      $this->mapAffiliateRoutes();
@@ -133,6 +135,20 @@ class RouteServiceProvider extends ServiceProvider
     Route::middleware('web')
        ->namespace($this->namespace)
        ->group(base_path('routes/delivery_boy.php'));
+  }
+
+  /**
+   * Define the "agency signup options" routes for the application.
+   *
+   * These routes all receive session state, CSRF protection, etc.
+   *
+   * @return void
+   */
+  protected function mapAgencySignupOptionRoutes()
+  {
+    Route::middleware('web')
+       ->namespace($this->namespace)
+       ->group(base_path('routes/agency_signup_options.php'));
   }
 
     /**
