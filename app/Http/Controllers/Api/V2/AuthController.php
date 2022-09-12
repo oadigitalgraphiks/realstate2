@@ -63,14 +63,10 @@ class AuthController extends Controller
         $customer->user_id = $user->id;
         $customer->save();
 
-        //create token
-        $token = $user->createToken('tokens')->plainTextToken;
 
         return response()->json([
             'result' => true,
             'message' => translate('Registration Successful. Please verify and log in to your account.'),
-            'token' => $token,
-            'pass' => $request->password,
         ], 201);
 
 
@@ -169,6 +165,8 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        
+
         $validator = Validator::make($request->all(),[
            'email' => 'required|string|email',
            'password' => 'required|string|min:6',
@@ -186,12 +184,12 @@ class AuthController extends Controller
 
             if(Hash::check($request->password, $user->password)){
 
-                if($user->email_verified_at == null) {
-                    return response()->json([
-                        'message' => translate('Please verify your account'), 
-                        'user' => null
-                    ], 401);
-                }
+                // if($user->email_verified_at == null) {
+                //     return response()->json([
+                //         'message' => translate('Please verify your account'), 
+                //         'user' => $user->id
+                //     ], 401);
+                // }
                 return $this->loginSuccess($user);
 
             } else {
