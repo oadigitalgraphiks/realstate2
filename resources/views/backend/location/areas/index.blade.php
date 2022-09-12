@@ -172,7 +172,7 @@
                                                 <!--end::Svg Icon-->
                                                 </a>
                                                 <a href="{{ route('property_areas.destroy', $area->id) }}"
-                                                    class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm confirm-delete"
+                                                    class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
                                                     data-href="">
                                                     <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                     <span class="svg-icon svg-icon-3">

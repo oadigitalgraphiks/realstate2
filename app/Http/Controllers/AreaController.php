@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PropertyArea;
+use App\Models\PropertyCity;
+use App\Models\PropertyCountry;
 use App;
 
 class AreaController extends Controller
@@ -32,7 +34,8 @@ class AreaController extends Controller
      */
     public function create()
     {
-        //
+        $cities = PropertyCity::all();
+        return view('backend.location.areas.create', compact('cities'));
     }
 
     /**
@@ -43,7 +46,13 @@ class AreaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $area = new PropertyArea;
+        $area->name = $request->name;
+        $area->city_id = $request->city_id;
+        $area->save();
+
+        flash(translate('Country has been inserted successfully'))->success();
+        return redirect()->route('property_areas.index');
     }
 
     /**
@@ -65,7 +74,9 @@ class AreaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $area = PropertyArea::find($id);
+        $cities = PropertyCity::all();
+        return view('backend.location.areas.edit', compact('area', 'cities'));
     }
 
     /**
@@ -77,7 +88,13 @@ class AreaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $area = PropertyArea::findOrFail($id);
+        $area->name = $request->name;
+        $area->city_id = $request->city_id;
+
+        $area->save();
+        flash(translate('Property Area has been Updated successfully'))->success();
+        return redirect()->route('property_areas.index');
     }
 
     /**
@@ -88,7 +105,12 @@ class AreaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $property_area = PropertyArea::findOrFail($id);
+
+        $property_area->delete();
+
+        flash(translate('Property Area has been deleted successfully'))->success();
+        return redirect()->route('property_areas.index');
     }
 
     public function updateStatus(Request $request){

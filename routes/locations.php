@@ -36,7 +36,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     Route::get('/property_areas', 'AreaController@index')->name('property_areas.index');
     Route::get('/property_areas/create', 'AreaController@create')->name('property_areas.create');
     Route::get('/property_areas/edit/{id}', 'AreaController@edit')->name('property_areas.edit');
-    Route::post('/property_areas/update', 'AreaController@update')->name('property_areas.update');
+    Route::any('/property_areas/update/{id}', 'AreaController@update')->name('property_areas.update');
     Route::get('/property_areas/destroy/{id}', 'AreaController@destroy')->name('property_areas.destroy');
 
     Route::resource('property_nested_areas', 'NestedAreaController');
