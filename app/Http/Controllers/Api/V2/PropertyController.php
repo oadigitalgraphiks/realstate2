@@ -165,6 +165,35 @@ class PropertyController extends Controller
         }
 
 
+        if($request->has('locations') && $request->locations != ''){
+
+              $locations = array_chunk(explode(',',$request->locations),2);
+              $sort =  $this->sorting($locations);
+              $minMax = $this->minMAx($sort['lat'],$sort['lng']);
+
+            // foreach ($products->get() as $value) {
+            
+            //     // $lat = 24.870551873583587;
+            //     // $lng = 66.98089599609376;
+            //     $lat = $value->latitude;
+            //     $lng = $value->longitude;
+
+            //     if($lat >= $minMax['latMin'] && $lat <= $minMax['latMax'] && $lng >= $minMax['lngMin'] && $lng <= $minMax['lngMax'] ){
+
+            //         // result.push(element);
+            //        dd('true');
+            //       }
+            //   }
+
+              $products->where('latitude', '>=', $minMax['latMin']);
+              $products->where('latitude', '<=', $minMax['latMax']);
+              $products->where('longitude', '>=', $minMax['lngMin']);
+              $products->where('longitude', '<=', $minMax['lngMax']);
+             
+            //   dd($products->get());
+        }   
+
+
         if ($request->has('true_check') && $request->true_check != '' && is_numeric($request->true_check)){
             $products->where('true_check',$request->true_check);    
          }
@@ -285,6 +314,42 @@ class PropertyController extends Controller
     // }
 
 
-    
+       public function sorting($data)
+    {
+        $lat = array();
+        $lng = array();
+        foreach($data as $value) {
+            $value1 = floatval($value[0]);
+            $value2 = floatval($value[1]);
+
+            array_push($lat,$value1);
+            array_push($lng,$value2);
+        }
+
+           
+        return ["lat" => $lat , "lng" => $lng];
+    }
+
+
+    public function minMAx($lat,$lng)
+    {
+
+        sort($lat);
+        sort($lng);
+
+        $latMin = min($lat);
+        $latMax = max($lat);
+        $lngMin = min($lng);
+        $lngMax = max($lng);
+
+        return [
+            "latMin" => $latMin,
+            "latMax" => $latMax,
+            "lngMin" => $lngMin,
+            "lngMax" => $lngMax,
+        ];
+
+    }
+
 
 }
