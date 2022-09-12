@@ -254,11 +254,12 @@
                                     <!--begin::Input group-->
                                     <div class="mb-10 fv-row">
                                         <!--begin::Label-->
-                                        <label class="required form-label">{{ translate('State') }}</label>
+                                        <label class="required form-label">{{ translate('Country') }}</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
                                         <select class="form-select mb-2" data-control="select2" data-hide-search="false"
                                             data-placeholder="Select an option" name="country_id" data-live-search="true">
+                                            <option value=""></option>
                                             @foreach (\App\Models\Country::where('status', 1)->get() as $country)
                                                 <option value="{{ $country->id }}">
                                                     {{ $country->name }}

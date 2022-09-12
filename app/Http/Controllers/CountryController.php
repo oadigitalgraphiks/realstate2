@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Country;
+use App\Models\PropertyCountry;
+use App;
 
 class CountryController extends Controller
 {
@@ -15,13 +16,13 @@ class CountryController extends Controller
     public function index(Request $request)
     {
         $sort_country = $request->sort_country;
-        $country_queries = Country::query();
+        $country_queries = PropertyCountry::orderBy('status', 'desc');
         if($request->sort_country) {
             $country_queries->where('name', 'like', "%$sort_country%");
         }
-        $countries = $country_queries->orderBy('status', 'desc')->paginate(15);
+        $countries = $country_queries->paginate(15);
 
-        return view('backend.setup_configurations.countries.index', compact('countries', 'sort_country'));
+        return view('backend.location.countries.index', compact('countries', 'sort_country'));
     }
 
     /**
@@ -31,7 +32,8 @@ class CountryController extends Controller
      */
     public function create()
     {
-        //
+        $countries = PropertyCountry::all();
+        return view('backend.location.countries.create', compact('countries'));
     }
 
     /**
@@ -42,7 +44,14 @@ class CountryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $country = new PropertyCountry;
+        $country->name = $request->name;
+        $country->code = $request->code;
+        $country->status = 1;
+        $country->save();
+
+        flash(translate('Country has been inserted successfully'))->success();
+        return redirect()->route('property_countries.index');
     }
 
     /**
@@ -64,7 +73,9 @@ class CountryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $country = PropertyCountry::findOrFail($id);
+        return view('backend.location.countries.edit', compact('country'));
+
     }
 
     /**
@@ -76,7 +87,13 @@ class CountryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $country = PropertyCountry::findOrFail($id);
+        $country->name = $request->name;
+        $country->code = $request->code;
+
+        $country->save();
+        flash(translate('Property Country has been Updated successfully'))->success();
+        return redirect()->route('property_countries.index');
     }
 
     /**
@@ -87,11 +104,17 @@ class CountryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        $property_country = PropertyCountry::findOrFail($id);
+
+        $property_country->delete();
+
+        flash(translate('Property Country has been deleted successfully'))->success();
+        return redirect()->route('property_countries.index');
     }
 
     public function updateStatus(Request $request){
-        $country = Country::findOrFail($request->id);
+        $country = PropertyCountry::findOrFail($request->id);
         $country->status = $request->status;
         if($country->save()){
             return 1;

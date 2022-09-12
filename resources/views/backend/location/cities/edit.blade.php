@@ -98,7 +98,7 @@
                                     <!--end::Label-->
                                     <!--begin::Input-->
                                     <input type="text" name="name" class="form-control mb-2" placeholder="Name"
-                                        value="{{ $city->getTranslation('name', $lang) }}" required />
+                                        value="{{ $city->name }}" required />
                                     <!--end::Input-->
                                     <!--begin::Description-->
                                     <div class="text-muted fs-7">
@@ -120,21 +120,6 @@
                                         @endforeach
                                     </select>
                                     <!--end::Input-->
-                                    <!--begin::Input group-->
-                                    <div class="mb-10 fv-row">
-                                        <!--begin::Label-->
-                                        <label class="required form-label">{{ translate('Cost') }}</label>
-                                        <!--end::Label-->
-                                        <!--begin::Input-->
-                                        <input type="number" min="0" step="0.01" placeholder="{{ translate('Cost') }}"
-                                            name="cost" class="form-control mb-2" value="{{ $city->cost }}" required />
-                                        <!--end::Input-->
-                                        <!--begin::Description-->
-                                        <div class="text-muted fs-7">
-                                            {{ translate('A Name is required and recommended to be unique.') }}</div>
-                                        <!--end::Description-->
-                                    </div>
-                                    <!--end::Input group-->
                                 </div>
                                 <!--end::Input group-->
                             </div>

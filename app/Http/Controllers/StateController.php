@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\State;
+use App\Models\PropertyState;
+use App\Models\PropertyCountry;
 use App\Models\Country;
 
 class StateController extends Controller
@@ -18,7 +19,7 @@ class StateController extends Controller
         $sort_country = $request->sort_country;
         $sort_state = $request->sort_state;
 
-        $state_queries = State::query();
+        $state_queries = PropertyState::query();
         if ($request->sort_state) {
             $state_queries->where('name', 'like', "%$sort_state%");
         }
@@ -26,8 +27,8 @@ class StateController extends Controller
             $state_queries->where('country_id', $request->sort_country);
         }
 
-        $states = $state_queries->orderBy('status', 'desc')->paginate(15);
-        return view('backend.setup_configurations.states.index', compact('states', 'sort_country', 'sort_state'));
+        $states = $state_queries->orderBy('id', 'desc')->paginate(15);
+        return view('backend.location.states.index', compact('states', 'sort_country', 'sort_state'));
     }
 
     /**
@@ -48,7 +49,7 @@ class StateController extends Controller
      */
     public function store(Request $request)
     {
-        $state = new State;
+        $state = new PropertyState;
 
         $state->name        = $request->name;
         $state->country_id  = $request->country_id;
@@ -78,10 +79,10 @@ class StateController extends Controller
      */
     public function edit($id)
     {
-        $state  = State::findOrFail($id);
-        $countries = Country::where('status', 1)->get();
+        $state  = PropertyState::findOrFail($id);
+        $countries = PropertyCountry::where('status', 1)->get();
 
-        return view('backend.setup_configurations.states.edit', compact('countries', 'state'));
+        return view('backend.location.states.edit', compact('countries', 'state'));
     }
 
     /**
@@ -93,7 +94,7 @@ class StateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $state = State::findOrFail($id);
+        $state = PropertyState::findOrFail($id);
 
         $state->name        = $request->name;
         $state->country_id  = $request->country_id;
@@ -101,7 +102,7 @@ class StateController extends Controller
         $state->save();
 
         flash(translate('State has been updated successfully'))->success();
-        return back();
+        return redirect()->route('property_states.index');
     }
 
     /**
@@ -112,7 +113,7 @@ class StateController extends Controller
      */
     public function destroy($id)
     {
-        State::destroy($id);
+        PropertyState::destroy($id);
 
         flash(translate('State has been deleted successfully'))->success();
         return redirect()->route('states.index');
@@ -120,7 +121,7 @@ class StateController extends Controller
 
     public function updateStatus(Request $request)
     {
-        $state = State::findOrFail($request->id);
+        $state = PropertyState::findOrFail($request->id);
         $state->status = $request->status;
         $state->save();
 

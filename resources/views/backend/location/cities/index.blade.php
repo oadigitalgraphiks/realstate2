@@ -116,9 +116,7 @@
                                                     </th>
                                                     <th class="min-w-200px">{{ translate('Name') }}</th>
                                                     <th class="text-center min-w-75px">{{ translate('State') }}</th>
-                                                    <th class="text-center min-w-75px">
-                                                        {{ translate('Area Wise Shipping Cost') }}</th>
-                                                    <th class="text-center min-w-75px">{{ translate('Show/Hide') }}</th>
+                                                    <th class="text-center min-w-75px">{{ translate('Country') }}</th>
                                                     <th class="text-center min-w-75px">{{ translate('Options') }}</th>
                                                 </tr>
                                                 <!--end::Table row-->
@@ -148,20 +146,7 @@
                                                         </td>
                                                         <td class="text-center pe-0">
                                                             <span class="fw-bolder">
-                                                                {{ single_price($city->cost) }}
-                                                            </span>
-                                                        </td>
-                                                        <td class="text-center pe-0" data-order="32">
-                                                            <span class="fw-bolder ms-3">
-                                                                <label
-                                                                    class="form-check form-switch form-check-custom form-check-solid d-block">
-                                                                    <input class="form-check-input"
-                                                                        onchange="update_status(this)"
-                                                                        value="{{ $city->id }}" type="checkbox"
-                                                                        <?php if ($city->status == 1) {
-                                                                            echo 'checked';
-                                                                        } ?>>
-                                                                </label>
+                                                                {{ $city->state->country->name }}
                                                             </span>
                                                         </td>
                                                         <td class="text-center">
@@ -280,24 +265,7 @@
                                                     <option value="{{ $state->id }}">{{ $state->name }}</option>
                                                 @endforeach
                                             </select>
-                                            <!--end::Input-->
-                                            <!--begin::Input group-->
-                                            <div class="mb-10 fv-row">
-                                                <!--begin::Label-->
-                                                <label class="required form-label">{{ translate('Cost') }}</label>
-                                                <!--end::Label-->
-                                                <!--begin::Input-->
-                                                <input type="number" min="0" step="0.01"
-                                                    placeholder="{{ translate('Cost') }}" name="cost"
-                                                    class="form-control mb-2" required />
-                                                <!--end::Input-->
-                                                <!--begin::Description-->
-                                                <div class="text-muted fs-7">
-                                                    {{ translate('A Name is required and recommended to be unique.') }}
-                                                </div>
-                                                <!--end::Description-->
-                                            </div>
-                                            <!--end::Input group-->
+                                            <!--end::Input-->   
                                         </div>
                                         <!--end::Input group-->
                                     </div>
