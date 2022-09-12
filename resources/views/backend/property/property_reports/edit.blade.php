@@ -31,7 +31,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Property</li>
+                        <li class="breadcrumb-item text-muted">Products</li>
                         <!--end::Item-->
                         <!--begin::Item-->
                         <li class="breadcrumb-item">
@@ -39,7 +39,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Property Type</li>
+                        <li class="breadcrumb-item text-muted">Property Purposes</li>
                         <!--end::Item-->
                         <!--begin::Item-->
                         <li class="breadcrumb-item">
@@ -47,7 +47,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-dark">Edit Property Type</li>
+                        <li class="breadcrumb-item text-dark">Edit Property Purposes</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -66,7 +66,7 @@
                     @foreach (\App\Models\Language::all() as $key => $language)
                         <li class="nav-item">
                             <a class="nav-link text-reset @if ($language->code == $lang) active @else bg-soft-dark border-light border-left-0 @endif py-3"
-                                href="{{ route('property_type.edit', ['id' => $property_type->id, 'lang' => $language->code]) }}">
+                                href="{{ route('property_purposes.edit', ['id' => $property_purpose->id, 'lang' => $language->code]) }}">
                                 <img src="{{ static_asset('assets/img/flags/' . $language->code . '.png') }}" height="11"
                                     class="mr-1">
                                 <span>{{ $language->name }}</span>
@@ -76,7 +76,7 @@
                 </ul>
                 <br>
                 <form class="form d-flex flex-column flex-lg-row gap-7 gap-lg-10"
-                    action="{{ route('property_type.update', $property_type->id) }}" method="POST" enctype="multipart/form-data">
+                    action="{{ route('property_purposes.update', $property_purpose->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input name="_method" type="hidden" value="PATCH">
                     <input type="hidden" name="lang" value="{{ $lang }}">
@@ -98,9 +98,9 @@
                                 <div class="mb-5 fv-row">
                                     <label class="required form-label">{{ translate('Property Type Name') }}</label>
                                     <input type="text" placeholder="{{ translate('Name') }}" id="name" name="name"
-                                        class="form-control mb-2" value="{{ $property_type->getTranslation('name', $lang) }}"
+                                        class="form-control mb-2" value="{{ $property_purpose->getTranslation('name', $lang) }}"
                                         required>
-                                    <div class="text-muted fs-7">A property_type name is required and recommended to be unique.
+                                    <div class="text-muted fs-7">A property purpose name is required and recommended to be unique.
                                     </div>
 
                                 </div>
@@ -108,14 +108,14 @@
                                 <!--begin::Input group-->
                                 <div class="fv-row mb-2">
                                     <label for="kt_ecommerce_add_product_store_template"
-                                        class="form-label">{{ translate('Parent Property Type') }}</label>
+                                        class="form-label">{{ translate('Parent Property Purposee') }}</label>
                                     <select class="form-select mb-2" data-control="select2" data-hide-search="false"
                                         data-placeholder="Select an option" id="parent_id" name="parent_id"
                                         data-live-search="true">
                                         <option value="0">{{ translate('No Parent') }}</option>
-                                        @foreach ($property_types as $aproperty_type)
-                                            <option value="{{ $aproperty_type->id }}" @if ($property_type->parent_id == $aproperty_type->id) selected @endif>
-                                                {{ $aproperty_type->getTranslation('name') }}</option>
+                                        @foreach ($property_purposes as $aproperty_purpose)
+                                            <option value="{{ $aproperty_purpose->id }}" @if ($property_purpose ->parent_id == $aproperty_purpose->id) selected @endif>
+                                                {{ $aproperty_purpose->getTranslation('name') }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -147,7 +147,7 @@
                                             <!--end::Icon-->
                                             <!--begin::Info-->
                                             <input type="hidden" name="icon" class="selected-files"
-                                                value="{{ $property_type->icon }}">
+                                                value="{{ $property_purpose->icon }}">
                                             <div class="ms-4">
                                                 <h3 class="fs-5 fw-bolder text-gray-900 mb-1">Drop files here or click to
                                                     upload.</h3>
@@ -162,7 +162,7 @@
 
                                 </div>
                                 <div class="text-muted fs-7">
-                                    {{ translate('These images are visible in Property Type Page Icon. Use 300x174 sizes images.') }}
+                                    {{ translate('These images are visible in Property Purpose Page Icon. Use 300x174 sizes images.') }}
                                 </div>
 
                                 <div class="fv-row mb-2">
@@ -177,7 +177,7 @@
                                             <!--end::Icon-->
                                             <!--begin::Info-->
                                             <input type="hidden" name="small_banner" class="selected-files"
-                                                value="{{ $property_type->small_banner }}">
+                                                value="{{ $property_purpose->small_banner }}">
                                             <div class="ms-4">
                                                 <h3 class="fs-5 fw-bolder text-gray-900 mb-1">Drop files here or click to
                                                     upload.</h3>
@@ -192,7 +192,7 @@
 
                                 </div>
                                 <div class="text-muted fs-7">
-                                    {{ translate('These images are visible in Property Type Page Icon. Use 768 x 450 sizes images.') }}
+                                    {{ translate('These images are visible in Property Purpose Page Icon. Use 768 x 450 sizes images.') }}
                                 </div>
 
                                 <div class="fv-row mt-5 mb-2">
@@ -207,7 +207,7 @@
                                             <!--end::Icon-->
                                             <!--begin::Info-->
                                             <input type="hidden" name="banner" class="selected-files"
-                                                value="{{ $property_type->banner }}">
+                                                value="{{ $property_purpose->banner }}">
                                             <div class="ms-4">
                                                 <h3 class="fs-5 fw-bolder text-gray-900 mb-1">Drop files here or click to
                                                     upload.</h3>
@@ -222,7 +222,7 @@
 
                                 </div>
                                 <div class="text-muted fs-7">
-                                    {{ translate('These images are visible in Property Type Page banner. Use 3168x470 sizes images.') }}
+                                    {{ translate('These images are visible in Property Purpose Page banner. Use 3168x470 sizes images.') }}
                                 </div>
                             </div>
                             <!--end::Card header-->
@@ -244,7 +244,7 @@
                                 <div class="mb-10">
                                     <label class="form-label">{{ translate('Meta Title') }}</label>
                                     <input type="text" class="form-control mb-2" name="meta_title"
-                                        value="{{ $property_type->meta_title }}"
+                                        value="{{ $property_purpose->meta_title }}"
                                         placeholder="{{ translate('Meta Title') }}" />
                                     <div class="text-muted fs-7">Set a meta tag title. Recommended to be simple and precise
                                         keywords.</div>
@@ -255,10 +255,10 @@
                                     <!--end::Label-->
                                     <!--begin::Editor-->
                                     <textarea name="meta_description" rows="5"
-                                        class="form-control mb-2">{{ $property_type->meta_description }}</textarea>
+                                        class="form-control mb-2">{{ $property_purpose->meta_description }}</textarea>
                                     <!--end::Editor-->
                                     <!--begin::Description-->
-                                    <div class="text-muted fs-7">Set a meta tag description to the property_type for increased
+                                    <div class="text-muted fs-7">Set a meta tag description to the Property Purpose for increased
                                         SEO ranking.</div>
                                     <!--end::Description-->
                                 </div>
@@ -266,7 +266,7 @@
                                 <div class="mb-10">
                                     <label class="form-label">{{ translate('Slug') }}</label>
                                     <input type="text" class="form-control mb-2" placeholder="{{ translate('Slug') }}"
-                                        id="slug" name="slug" value="{{ $property_type->slug }}" />
+                                        id="slug" name="slug" value="{{ $property_purpose->slug }}" />
                                 </div>
                             </div>
                             <!--end::Card header-->
@@ -285,7 +285,7 @@
                             </div>
                             <div class="card-body pt-0">
                                 <input type="number" name="order_level" class="form-control mb-2" id="order_level"
-                                    placeholder="{{ translate('Order Level') }}" value="{{ $property_type->order_level }}">
+                                    placeholder="{{ translate('Order Level') }}" value="{{ $property_purpose->order_level }}">
                                 <div class="text-muted fs-7">{{ translate('Higher number has high priority') }}</div>
                             </div>
                         </div>
@@ -303,18 +303,18 @@
                             <!--begin::Card body-->
                             <div class="card-body pt-0">
                                 <!--begin::Select store template-->
-                                <label for="kt_ecommerce_add_property_type_store_template"
-                                    class="form-label">{{ translate('Property Type') }}</label>
+                                <label for="kt_ecommerce_add_property_purpose_store_template"
+                                    class="form-label">{{ translate('Property Purpose') }}</label>
                                 <select class="form-select mb-2" data-control="select2" data-hide-search="true"
-                                    data-placeholder="Select an option" id="kt_ecommerce_add_property_type_store_template"
+                                    data-placeholder="Select an option" id="kt_ecommerce_add_property_purpose_store_template"
                                     name="digital" required>
-                                    <option value="0" @if ($property_type->digital == '0') selected @endif>{{ translate('Physical') }}</option>
-                                    <option value="1" @if ($property_type->digital == '1') selected @endif>{{ translate('Digital') }}</option>
+                                    <option value="0" @if ($property_purpose->digital == '0') selected @endif>{{ translate('Physical') }}</option>
+                                    <option value="1" @if ($property_purpose->digital == '1') selected @endif>{{ translate('Digital') }}</option>
                                 </select>
                             </div>
                         </div>
 
-                        @if (get_setting('property_type_wise_commission') == 1)
+                        @if (get_setting('property_purpose_wise_commission') == 1)
                             <div class="card card-flush py-4">
                                 <div class="card-header">
                                     <div class="card-title">
@@ -325,7 +325,7 @@
                                     <input type="number" lang="en" min="0" step="0.01"
                                         placeholder="{{ translate('Commission Rate') }}" id="commision_rate"
                                         name="commision_rate" class="form-control"
-                                        value="{{ $property_type->commision_rate }}">
+                                        value="{{ $property_Purpose->commision_rate }}">
                                     <div class="input-group-append">
                                         <span class="input-group-text">%</span>
                                     </div>

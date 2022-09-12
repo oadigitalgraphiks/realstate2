@@ -13,7 +13,7 @@
                     data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                     class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                     <!--begin::Title-->
-                    <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Propert Types</h1>
+                    <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Property units</h1>
                     <!--end::Title-->
                     <!--begin::Separator-->
                     <span class="h-20px border-gray-300 border-start mx-4"></span>
@@ -39,7 +39,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Property Types</li>
+                        <li class="breadcrumb-item text-muted">Property units</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -84,8 +84,8 @@
                             <!--end::Card title-->
                             <!--begin::Card toolbar-->
                             <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
-                                <a href="{{ route('property_type.create') }}" class="btn btn-primary">
-                                    {{ translate('Add New Property Type') }}
+                                <a href="{{ route('property_units.create') }}" class="btn btn-primary">
+                                    {{ translate('Add New Property units') }}
                                 </a>
                                 <!--end::Add product-->
                             </div>
@@ -106,11 +106,9 @@
                                             <th class="w-10px pe-2">
                                                 {{ translate('Sno.') }}
                                             </th>
-                                            <th class="min-w-200px">{{ translate('Property Type') }}</th>
-                                            <th class="text-center min-w-75px">{{ translate('Parent Type') }}</th>
-                                            <th class="text-center min-w-175px">{{ translate('Order Level') }}</th>
-                                            <th class="text-center min-w-100px">{{ translate('Icon') }}</th>
-                                            <th class="text-center min-w-70px">{{ translate('Featured') }}</th>
+                                            <th class="text-center min-w-75px">{{ translate('Name') }}</th>
+                                            <th class="text-center min-w-75px">{{ translate('Short Name') }}</th>
+                                            <th class="text-center min-w-75px">{{ translate('Conversion') }}</th>
                                             <th class="text-center min-w-150px">{{ translate('Actions') }}</th>
                                         </tr>
                                         <!--end::Table row-->
@@ -119,88 +117,51 @@
                                     <!--begin::Table body-->
                                     <tbody class="fw-bold text-gray-600">
                                         <!--begin::Table row-->
-                                        @foreach ($property_type as $key => $property_type)
+                                        @foreach ($property_units as $key => $property_unit)
                                             <tr>
                                                 <!--begin::Checkbox-->
                                                 <td class="text-center pe-0">
                                                     <span
-                                                        class="fw-bolder">{{$property_type->id}}</span>
+                                                        class="fw-bolder">{{$property_unit->id}}</span>
                                                 </td>
                                                 <!--begin::Category=-->
                                                 <td>
-                                                    <div class="d-flex">
-                                                        <!--begin::Thumbnail-->
-                                                        <a href="{{ route('property_type.edit', ['id' => $property_type->id, 'lang' => env('DEFAULT_LANGUAGE')]) }}"
-                                                            class="symbol symbol-50px">
-                                                            @if ($property_type->icon != null)
-                                                                <span class="symbol-label"
-                                                                    style="background-image:url({{ uploaded_asset($property_type->icon) }});"></span>
-                                                            @else
-                                                                —
-                                                            @endif
-                                                        </a>
-                                                        <!--end::Thumbnail-->
+                                                    <div class="d-flex" style="justify-content: center">
                                                         <div class="ms-5">
                                                             <!--begin::Title-->
-                                                            <a href="{{ route('property_type.edit', ['id' => $property_type->id, 'lang' => env('DEFAULT_LANGUAGE')]) }}"
+                                                            <a href="{{ route('property_units.edit', ['id' => $property_unit->id, 'lang' => env('DEFAULT_LANGUAGE')]) }}"
                                                                 class="text-gray-800 text-hover-primary fs-5 fw-bolder mb-1"
                                                                 data-kt-ecommerce-property_type-filter="property_type_name">
                                                                 <div class="badge badge-light-success">
-                                                                    {{ $property_type->getTranslation('name') }}</div>
+                                                                    {{ $property_unit->getTranslation('name') }}</div>
                                                             </a>
                                                             <!--end::Title-->
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <!--end::Category=-->
-                                                <td class="text-center pe-0">
-                                                    <span class="fw-bolder">@php
-                                                        $parent = \App\Models\PropertyType::where('id', $property_type->parent_id)->first();
-                                                    @endphp
-                                                        @if ($parent != null)
-                                                            {{ $parent->getTranslation('name') }}
-                                                        @else
-                                                            —
-                                                        @endif
-                                                    </span>
+                                                <td>
+                                                    <div class="d-flex" style="justify-content: center">
+                                                        <div class="ms-5">
+                                                            <!--begin::Title-->
+                                                                <div>
+                                                                    {{ $property_unit->shortname }}</div>
+                                                            <!--end::Title-->
+                                                        </div>
+                                                    </div>
                                                 </td>
-                                                <!--end::SKU=-->
-                                                <!--begin::Qty=-->
-                                                <td class="text-center pe-0" data-order="32">
-                                                    <span class="fw-bolder ms-3">
-                                                        {{ $property_type->order_level }}
-                                                    </span>
+                                                <td>
+                                                    <div class="d-flex" style="justify-content: center">
+                                                        <div class="ms-5">
+                                                            <!--begin::Title-->
+                                                                <div>
+                                                                    {{ $property_unit->conversion }}</div>
+                                                            <!--end::Title-->
+                                                        </div>
+                                                    </div>
                                                 </td>
-                                              
-                                                <!--end::Qty=-->
-                                                <!--begin::Price=-->
-                                           
-                                                <td class="text-center pe-0">
-                                                    @if ($property_type->icon != null)
-                                                        <span class="avatar avatar-square avatar-xs width_75">
-                                                            <img src="{{ uploaded_asset($property_type->icon) }}"
-                                                                alt="{{ translate('icon') }}" style="width: 75px">
-                                                        </span>
-                                                    @else
-                                                        —
-                                                    @endif
-                                                </td>
-                                                <!--end::Price=-->
-                                                <!--begin::Rating-->
-                                                <td class="text-center pe-0" data-order="rating-3">
-                                                    <label
-                                                        class="form-check form-switch form-check-custom form-check-solid">
-                                                        <input class="form-check-input" onchange="update_featured(this)"
-                                                            value="{{ $property_type->id }}" type="checkbox"
-                                                            <?php if ($property_type->featured == 1) {
-                                                                echo 'checked';
-                                                            } ?>>
-                                                    </label>
-                                                </td>
-                                                <!--end::Rating-->
 
                                                 <td class="text-center">
-                                                    <a href="{{ route('property_type.edit', ['id' => $property_type->id, 'lang' => env('DEFAULT_LANGUAGE')]) }}"
+                                                    <a href="{{ route('property_units.edit', ['id' => $property_unit->id, 'lang' => env('DEFAULT_LANGUAGE')]) }}"
                                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
                                                         <span class="svg-icon svg-icon-3">
@@ -222,7 +183,7 @@
 
                                                     <a href="#"
                                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm confirm-delete"
-                                                        data-href="{{ route('property_type.destroy', $property_type->id) }}">
+                                                        data-href="{{ route('property_units.destroy', $property_unit->id) }}">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                         <span class="svg-icon svg-icon-3">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"

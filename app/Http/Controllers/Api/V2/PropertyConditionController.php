@@ -11,8 +11,6 @@ class PropertyConditionController extends Controller
 
     public function index( )
     {
-        
-        
         return new PropertyConditionCollection(PropertyCondition::paginate(10));
         
         // return Cache::remember("app.categories-$parent_id", 86400, function() use ($parent_id){

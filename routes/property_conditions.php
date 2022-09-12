@@ -15,9 +15,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     
     Route::get('property_conditions', 'PropertyConditionController@index')->name('property_conditions.index');
     Route::get("property_conditions/create/",'PropertyConditionController@create')->name('property_conditions.create');
-    Route::post("property_conditions/store/",'PropertyConditionController@store')->name('property_conditions.store');
+    Route::get("property_conditions/store/",'PropertyConditionController@store')->name('property_conditions.store');
     Route::get("property_conditions/edit/{id}",'PropertyConditionController@edit')->name('property_conditions.edit');
-    Route::post("property_conditions/update/{id}",'PropertyConditionController@update')->name('property_conditions.update');
+    Route::any("property_conditions/update/{id}",'PropertyConditionController@update')->name('property_conditions.update');
 
     Route::get('property_conditions/conditions/serach', 'PropertyConditionController@search')->name('property_conditions.search');
 
