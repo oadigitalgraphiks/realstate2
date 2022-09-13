@@ -806,40 +806,40 @@
                                                 <div class="mb-6 fv-row">
                                                     <label class="form-label">{{ translate('Country') }}</label>
                                                     <select required class="form-select mb-2" data-control="select2" data-placeholder="Select an option"  name="user_id" id="user_id">
-                                                            @foreach ($users as $user)
-                                                               <option value="{{ $user->id }}" @if ($product->user_id == $user->id) selected @endif>-- {{ $user->name }}</option>
+                                                            @foreach ($countries as $country)
+                                                               <option value="{{ $country->id }}" @if ($product->country_id == $country->id) selected @endif>-- {{ $country->name }}</option>
                                                             @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="mb-6 fv-row">
                                                     <label class="form-label">{{ translate('State') }}</label>
                                                     <select required class="form-select mb-2" data-control="select2" data-placeholder="Select an option"  name="user_id" id="user_id">
-                                                            @foreach ($users as $user)
-                                                               <option value="{{ $user->id }}" @if ($product->user_id == $user->id) selected @endif>-- {{ $user->name }}</option>
+                                                            @foreach ($states as $state)
+                                                               <option value="{{ $state->id }}" @if ($product->state_id == $state->id) selected @endif>-- {{ $state->name }}</option>
                                                             @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="mb-6 fv-row">
                                                     <label class="form-label">{{ translate('City') }}</label>
                                                     <select required class="form-select mb-2" data-control="select2" data-placeholder="Select an option"  name="user_id" id="user_id">
-                                                            @foreach ($users as $user)
-                                                               <option value="{{ $user->id }}" @if ($product->user_id == $user->id) selected @endif>-- {{ $user->name }}</option>
+                                                            @foreach ($cities as $city)
+                                                               <option value="{{ $city->id }}" @if ($product->city_id == $city->id) selected @endif>-- {{ $city->name }}</option>
                                                             @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="mb-6 fv-row">
                                                     <label class="form-label">{{ translate('Area') }}</label>
                                                     <select required class="form-select mb-2" data-control="select2" data-placeholder="Select an option"  name="user_id" id="user_id">
-                                                            @foreach ($users as $user)
-                                                               <option value="{{ $user->id }}" @if ($product->user_id == $user->id) selected @endif>-- {{ $user->name }}</option>
+                                                            @foreach ($areas as $area)
+                                                               <option value="{{ $area->id }}" @if ($product->area_id == $area->id) selected @endif>-- {{ $area->name }}</option>
                                                             @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="mb-6 fv-row">
                                                     <label class="form-label">{{ translate('Nested Area') }}</label>
                                                     <select required class="form-select mb-2" data-control="select2" data-placeholder="Select an option"  name="user_id" id="user_id">
-                                                            @foreach ($users as $user)
-                                                               <option value="{{ $user->id }}" @if ($product->user_id == $user->id) selected @endif>-- {{ $user->name }}</option>
+                                                            @foreach ($nested_areas as $nested_area)
+                                                               <option value="{{ $nested_area->id }}" @if ($product->nested_area_id == $nested_area->id) selected @endif>-- {{ $nested_area->name }}</option>
                                                             @endforeach
                                                     </select>
                                                 </div>

@@ -21,6 +21,11 @@ use App\Models\PropertyFurnishType;
 use App\Models\PropertyPurpose;
 use App\Models\PropertyTourType;
 use App\Models\PropertyType;
+use App\Models\PropertyCountry;
+use App\Models\PropertyState;
+use App\Models\PropertyCity;
+use App\Models\PropertyArea;
+use App\Models\PropertyNestedArea;
 use App\Models\User;
 use Auth;
 use Carbon\Carbon;
@@ -538,7 +543,11 @@ class ProductController extends Controller
             ->get();
 
         $tours = PropertyTourType::all();
-
+        $countries = PropertyCountry::all();
+        $states = PropertyState::where('country_id', $product->country_id)->get();
+        $cities = PropertyCity::where('state_id', $product->state_id)->get();
+        $areas = PropertyArea::where('city_id', $product->city_id)->get();
+        $nested_areas = PropertyNestedArea::where('parent', $product->area_id)->get();
         $conditions = PropertyCondition::all();
         $furnish_types = PropertyFurnishType::all();
         $amenities = PropertyAmenity::all();
@@ -546,7 +555,7 @@ class ProductController extends Controller
 
             
 
-        return view('backend.product.products.edit', compact('beds','baths', 'users', 'purposes','product', 'categories', 'tags','lang','units','types','tours','conditions','furnish_types','amenities','agencies'));
+        return view('backend.product.products.edit', compact('beds','baths', 'users', 'purposes','product', 'categories', 'tags','lang','units','types','tours','conditions','furnish_types','amenities','agencies', 'countries', 'states', 'cities', 'areas', 'nested_areas'));
      }
 
     /**
