@@ -64,6 +64,7 @@ class PropertyController extends Controller
             SearchUtility::store($name);
         }
 
+        
         if($request->has('country') && $request->country != null){
             $country = PropertyCountry::where('slug',$request->country)->first();
             $country = $country ? $country->id:false;
@@ -147,6 +148,7 @@ class PropertyController extends Controller
             $products->where('purpose_id',$purpose->id);
         }
 
+
         if($request->has('type') && $request->type != ''){
 
             $typeIdz = [];
@@ -171,26 +173,11 @@ class PropertyController extends Controller
               $sort =  $this->sorting($locations);
               $minMax = $this->minMAx($sort['lat'],$sort['lng']);
 
-            // foreach ($products->get() as $value) {
-            
-            //     // $lat = 24.870551873583587;
-            //     // $lng = 66.98089599609376;
-            //     $lat = $value->latitude;
-            //     $lng = $value->longitude;
-
-            //     if($lat >= $minMax['latMin'] && $lat <= $minMax['latMax'] && $lng >= $minMax['lngMin'] && $lng <= $minMax['lngMax'] ){
-
-            //         // result.push(element);
-            //        dd('true');
-            //       }
-            //   }
-
               $products->where('latitude', '>=', $minMax['latMin']);
               $products->where('latitude', '<=', $minMax['latMax']);
               $products->where('longitude', '>=', $minMax['lngMin']);
               $products->where('longitude', '<=', $minMax['lngMax']);
-             
-            //   dd($products->get());
+
         }   
 
 
