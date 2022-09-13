@@ -597,6 +597,11 @@ class ProductController extends Controller
         $product->purpose_child_id = $request->purpose_id;
         $product->bed_id = $request->bed_id;
         $product->bath_id = $request->bath_id;
+        $product->country_id = $request->country_id;
+        $product->state_id = $request->state_id;
+        $product->city_id = $request->city_id;
+        $product->area_id = $request->area_id;
+        $product->nested_area_id = $request->nested_area_id;
         $product->tour_type_id = $request->tour_type_id;
         $product->conditions = $request->conditions;
         $product->amenities = $request->amenities;
