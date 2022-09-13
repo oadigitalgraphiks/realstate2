@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PropertyNestedArea;
+use App\Models\PropertyArea;
 use App;
 
 class NestedAreaController extends Controller
@@ -32,7 +33,8 @@ class NestedAreaController extends Controller
      */
     public function create()
     {
-        //
+        $areas = PropertyArea::all();
+        return view('backend.location.nested_areas.create', compact('areas'));
     }
 
     /**
@@ -43,7 +45,13 @@ class NestedAreaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $nested_area = new PropertyNestedArea;
+        $nested_area->name = $request->name;
+        $nested_area->parent = $request->area_id;
+        $nested_area->save();
+
+        flash(translate('Country has been inserted successfully'))->success();
+        return redirect()->route('property_nested_areas.index');
     }
 
     /**
@@ -65,7 +73,9 @@ class NestedAreaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $nested_area = PropertyNestedArea::find($id);
+        $areas = PropertyArea::all();
+        return view('backend.location.nested_areas.edit', compact('nested_area', 'areas'));
     }
 
     /**
@@ -77,7 +87,13 @@ class NestedAreaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $nested_area = PropertyNestedArea::findOrFail($id);
+        $nested_area->name = $request->name;
+        $nested_area->parent = $request->area_id;
+
+        $nested_area->save();
+        flash(translate('Property Nested Area has been Updated successfully'))->success();
+        return redirect()->route('property_nested_areas.index');
     }
 
     /**
@@ -88,11 +104,16 @@ class NestedAreaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $property_nested_area = PropertyNestedArea::findOrFail($id);
+
+        $property_nested_area->delete();
+
+        flash(translate('Property Nested Area has been deleted successfully'))->success();
+        return redirect()->route('property_nested_areas.index');
     }
 
     public function updateStatus(Request $request){
-        $area = area::findOrFail($request->id);
+        $area = PropertyNestedArea::findOrFail($request->id);
         $area->status = $request->status;
         if($area->save()){
             return 1;

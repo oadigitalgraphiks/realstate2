@@ -43,6 +43,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     Route::get('/property_nested_areas', 'NestedAreaController@index')->name('property_nested_areas.index');
     Route::get('/property_nested_areas/create', 'NestedAreaController@create')->name('property_nested_areas.create');
     Route::get('/property_nested_areas/edit/{id}', 'NestedAreaController@edit')->name('property_nested_areas.edit');
-    Route::post('/property_nested_areas/update', 'NestedAreaController@update')->name('property_nested_areas.update');
+    Route::post('/property_nested_areas/update/{id}', 'NestedAreaController@update')->name('property_nested_areas.update');
     Route::get('/property_nested_areas/destroy/{id}', 'NestedAreaController@destroy')->name('property_nested_areas.destroy');
 });

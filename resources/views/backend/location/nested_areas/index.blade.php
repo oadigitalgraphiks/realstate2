@@ -92,7 +92,7 @@
                             </div>
                             <!--end::Search-->
                             <button class="btn btn-primary" type="submit">{{ translate('Filter') }}</button>
-                            <a href="{{ route('property_areas.create') }}" class="btn btn-primary" type="submit">{{ translate('Create New') }}</a>
+                            <a href="{{ route('property_nested_areas.create') }}" class="btn btn-primary" type="submit">{{ translate('Create New') }}</a>
                             <!--end::Add product-->
                         </div>
                         <!--end::Card toolbar-->
@@ -162,7 +162,7 @@
                                                 </span>
                                             </td>
                                             <td class="text-center">
-                                                        <a href="{{ route('property_areas.edit', $nested_area->id) }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                                        <a href="{{ route('property_nested_areas.edit', $nested_area->id) }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                 <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                 <span class="svg-icon svg-icon-3">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -177,8 +177,8 @@
                                                 </span>
                                                 <!--end::Svg Icon-->
                                                 </a>
-                                                <a href="{{ route('property_areas.destroy', $nested_area->id) }}"
-                                                    class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm confirm-delete"
+                                                <a href="{{ route('property_nested_areas.destroy', $nested_area->id) }}"
+                                                    class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
                                                     data-href="">
                                                     <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                     <span class="svg-icon svg-icon-3">

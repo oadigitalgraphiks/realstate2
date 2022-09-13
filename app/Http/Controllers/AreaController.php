@@ -114,7 +114,7 @@ class AreaController extends Controller
     }
 
     public function updateStatus(Request $request){
-        $area = area::findOrFail($request->id);
+        $area = PropertyArea::findOrFail($request->id);
         $area->status = $request->status;
         if($area->save()){
             return 1;
