@@ -15,6 +15,8 @@ Route::group(['prefix' => 'v2/auth', 'middleware' => ['app_language']], function
     Route::post('resend_code', 'Api\V2\AuthController@resendCode');
     Route::post('confirm_code', 'Api\V2\AuthController@confirmCode');
 
+    
+
 });
 
 
@@ -25,13 +27,17 @@ Route::group(['prefix' => 'v2', 'middleware' => ['app_language']], function() {
     Route::get('property-subscribers/create/{email}','Api\V2\PropertySubscriberController@create');
     Route::get('property-subscribers/delete/{id}','Api\V2\PropertySubscriberController@destroy');
 
-    
     //Agents
+    Route::post('agency/dashboard/create-property','Api\V2\PropertyAgencyController@createProperty');
+ 
+ 
     Route::get('property-agencies','Api\V2\PropertyAgencyController@index');
     Route::get('property-agencies/team/{id}','Api\V2\PropertyAgencyController@team');
     Route::get('property-agencies/{id}','Api\V2\PropertyAgencyController@get');
-    
     Route::get('property-agencies-featured','Api\V2\PropertyAgencyController@featured');
+ 
+
+    
 
     //Property Locations
     Route::get('property-locations/nested-areas/{id}','Api\V2\PropertyLocationsController@get_nested_areas');

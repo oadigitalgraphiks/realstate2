@@ -8,87 +8,139 @@ use App\Models\Shop;
 use App\Models\PropertyTeam;
 use App\Http\Resources\V2\PropertyAgencyDetailCollection;
 use App\Http\Resources\V2\PropertyAgencyCollection;
+use Validator;
+use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Http\Resources\V2\PropertyDetailCollection;
 
 class PropertyAgencyController extends Controller
 {
 
-    public function CreateProperty(Request $request)
+    public function createProperty(Request $request)
     {
 
-        // 'id' => $data->id,
-        // 'name' => $data->getTranslation('name'),
-        // 'slug' => $data->slug,
-        // 'description' =>$data->getTranslation('description'),
-        // 'meta_title' => $data->meta_title,
-        // 'meta_description' => $data->meta_description,
-        // 'longitude' => $data->longitude,
-        // 'latitude' => $data->latitude,
-        // 'reference' => $data->ref,
-        // 'sqft' => $unit_conversion,
-        // 'purpose' => $data->purpose,
-        // 'type' => $data->type,
-        // 'bed' => $data->bed,
-        // 'bath' => $data->bath,	 
-        // 'tour_type' => $data->tour_type,
-        // 'furnish_type' => $data->furnish_type,
-        // 'amenities' => $am,
-        // 'conditions' => $con,
-        // 'tags' => explode(',', $data->tags),
-        // 'vendor' => $data->user,
-        // 'thumbnail_image' => asset('public/uploads/properties/'.rand(1,40).'.jpg'),
-        // 'photos' => $gallary,
-        // 'country' => $data->country,
-        // 'state' => $data->state,
-        // 'city' => $data->city,
-        // 'area' => $data->area,
-        // 'nested_area' => $data->nested_area,
-        // 'price' => number_format($data->unit_price,2),
-        // 'currency_symbol' => currency_symbol(),
-        // 'plans' => $data->plans,
-        // 'related' =>  new RelatedPropertyCollection($relatedPro),
-        // 'links' => [
-        //     'details' => route('products.show', $data->id),
-        // ]
-
-        // $validator = Validator::make($request->all(),[
-        //     'name' => 'required|string',
-        //     'slug' => 'required|string|email|unique:users,email',
-        //     'description' => 'required|string|unique:users,phone',
-        //     'longitude' => $data->longitude,
-        //     'latitude' => $data->latitude,
-        //     'reference' => $data->ref,
-            // 'sqft' => $unit_conversion,
-            // 'purpose' => $data->purpose,
-            // 'type' => $data->type,
-            // 'bed' => $data->bed,
-            // 'bath' => $data->bath,	 
-            // 'tour_type' => $data->tour_type,
-            // 'furnish_type' => $data->furnish_type,
-            // 'amenities' => $am,
-            // 'conditions' => $con,
-            // 'tags' => explode(',', $data->tags),
-
-
-            
-            'password' => 'required|min:6|required_with:password_confirmation|same:password_confirmation',
-            'password_confirmation' => 'required|min:6',
-            'remember_me' => 'boolean',
-            'type' => 'required|string',
-            'terms' => 'required|string',
-            'notification' => 'required|string',
+        $validator = Validator::make($request->all(),[
+            'title' => 'required|string',
+            'slug' => 'required|string',
+            'meta_description' => 'required|string',
+            'price' => 'required|integer',
+            'reference' => 'required|string',
+            'sqft' =>  'required|integer',
+            'purpose' => 'required|integer',
+            'type' => 'required|integer',
+            'meta_title' => 'string',
+            'description' => 'string',
+            'longitude' => 'string',
+            'latitude' => 'string',
+            'bed' => 'integer',
+            'bath' => 'integer',	 
+            'tour_type' => 'integer',
+            'furnish_type' => 'integer',
+            'amenities' => 'string',
+            'conditions' => 'string',
+            'tags' => 'string',
+            'thumbnail_image' => 'string',
+            'photos' => 'string',
+            'country' => 'integer',
+            'state' => 'integer',
+            'city' => 'integer',
+            'area' =>  'integer',
+            'nested_area' =>  'integer',   
          ]);
 
-        //  if($validator->fails()){
-        //     return response()->json([
-        //      'message' => 'Validation Failed',
-        //      'errors' => $validator->messages(),
-        //     ],401);
-        //  } 
+
+         if($validator->fails()){
+            return response()->json([
+             'message' => 'Validation Failed',
+             'errors' => $validator->messages(),
+            ],401);
+         }
 
 
-               
-        
-        return true; 
+         $data = [
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'meta_title' => $request->title,
+            'meta_description' => $request->meta_description,
+            'price' => $request->price,
+            'reference' => $request->reference,
+            'sqft' => $request->sqft,
+            'purpose' => $request->purpose,
+            'type' => $request->type,
+         ];
+
+         if($request->has('description')){
+            $data['description'] = $request->description;
+         }
+
+         if($request->has('longitude')){
+            $data['longitude'] = $request->longitude;
+         }
+
+         if($request->has('latitude')){
+            $data['latitude'] = $request->latitude;
+         }
+
+         if($request->has('bed')){
+            $data['bed'] = $request->bed;
+         }
+
+         if($request->has('bath')){
+            $data['bath'] = $request->bed;
+         }
+
+         if($request->has('tour_type')){
+            $data['tour_type'] = $request->tour_type;
+         }
+
+         if($request->has('furnish_type')){
+            $data['furnish_type'] = $request->furnish_type;
+         }
+
+         if($request->has('amenities')){
+            $data['amenities'] = $request->amenities;
+         }
+
+         if($request->has('conditions')){
+            $data['conditions'] = $request->conditions;
+         }
+
+         if($request->has('tags')){
+            $data['tags'] = $request->tags;
+         }
+
+         if($request->has('thumbnail_image')){
+            $data['thumbnail_image'] = $request->thumbnail_image;
+         }
+
+         if($request->has('photos')){
+            $data['photos'] = $request->photos;
+         }
+
+         if($request->has('country')){
+            $data['country'] = $request->country;
+         }
+
+         if($request->has('state')){
+            $data['state'] = $request->state;
+         }
+
+         if($request->has('city')){
+            $data['city'] = $request->city;
+         }
+
+         if($request->has('area')){
+            $data['area'] = $request->area;
+         }
+
+         if($request->has('nested_area')){
+            $data['nested_area'] = $request->nested_area;
+         }
+
+         
+         $product = Product::create($data);
+         return new PropertyDetailCollection(Product::where('id', $product->id)->get());
+
     }
 
 
