@@ -100,7 +100,7 @@ class RouteServiceProvider extends ServiceProvider
 
      $this->propertyAmenityWebRoutes();
 
-
+    $this->mapLocationRoutes();
 
      
 
@@ -262,6 +262,20 @@ class RouteServiceProvider extends ServiceProvider
     Route::middleware('web')
        ->namespace($this->namespace)
        ->group(base_path('routes/club_points.php'));
+  }
+
+  /**
+   * Define the "location" routes for the application.
+   *
+   * These routes all receive session state, CSRF protection, etc.
+   *
+   * @return void
+   */
+  protected function mapLocationRoutes()
+  {
+    Route::middleware('web')
+       ->namespace($this->namespace)
+       ->group(base_path('routes/locations.php'));
   }
 
   /**

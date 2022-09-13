@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\City;
-use App\Models\Country;
+use App\Models\PropertyCity;
+use App\Models\PropertyCountry;
 use App\Models\CityTranslation;
-use App\Models\State;
+use App\Models\PropertyState;
 
 class CityController extends Controller
 {
@@ -19,17 +19,17 @@ class CityController extends Controller
     {
         $sort_city = $request->sort_city;
         $sort_state = $request->sort_state;
-        $cities_queries = City::query();
+        $cities_queries = PropertyCity::with('state.country');
         if($request->sort_city) {
             $cities_queries->where('name', 'like', "%$sort_city%");
         }
         if($request->sort_state) {
             $cities_queries->where('state_id', $request->sort_state);
         }
-        $cities = $cities_queries->orderBy('status', 'desc')->paginate(15);
-        $states = State::where('status', 1)->get();
+        $cities = $cities_queries->orderBy('id', 'desc')->paginate(15);
+        $states = PropertyState::all();
 
-        return view('backend.setup_configurations.cities.index', compact('cities', 'states', 'sort_city', 'sort_state'));
+        return view('backend.location.cities.index', compact('cities', 'states', 'sort_city', 'sort_state'));
     }
 
     /**
@@ -49,17 +49,16 @@ class CityController extends Controller
      */
     public function store(Request $request)
     {
-        $city = new City;
+        $city = new PropertyCity;
 
         $city->name = $request->name;
-        $city->cost = $request->cost;
         $city->state_id = $request->state_id;
 
         $city->save();
 
         flash(translate('City has been inserted successfully'))->success();
 
-        return back();
+        return redirect()->route('property_cities.index');
     }
 
     /**
@@ -71,9 +70,9 @@ class CityController extends Controller
      public function edit(Request $request, $id)
      {
          $lang  = $request->lang;
-         $city  = City::findOrFail($id);
-         $states = State::where('status', 1)->get();
-         return view('backend.setup_configurations.cities.edit', compact('city', 'lang', 'states'));
+         $city  = PropertyCity::findOrFail($id);
+         $states = PropertyState::all();
+         return view('backend.location.cities.edit', compact('city', 'lang', 'states'));
      }
 
 
@@ -86,22 +85,16 @@ class CityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $city = City::findOrFail($id);
-        if($request->lang == env("DEFAULT_LANGUAGE")){
-            $city->name = $request->name;
-        }
+        $city = PropertyCity::findOrFail($id);
+        
+        $city->name = $request->name;
 
         $city->state_id = $request->state_id;
-        $city->cost = $request->cost;
 
         $city->save();
 
-        $city_translation = CityTranslation::firstOrNew(['lang' => $request->lang, 'city_id' => $city->id]);
-        $city_translation->name = $request->name;
-        $city_translation->save();
-
         flash(translate('City has been updated successfully'))->success();
-        return back();
+        return redirect()->route('property_cities.index'); 
     }
 
     /**
@@ -112,20 +105,16 @@ class CityController extends Controller
      */
     public function destroy($id)
     {
-        $city = City::findOrFail($id);
+        $city = PropertyCity::findOrFail($id);
 
-        foreach ($city->city_translations as $key => $city_translation) {
-            $city_translation->delete();
-        }
-
-        City::destroy($id);
+        PropertyCity::destroy($id);
 
         flash(translate('City has been deleted successfully'))->success();
-        return redirect()->route('cities.index');
+        return redirect()->route('property_cities.index');
     }
 
     public function updateStatus(Request $request){
-        $city = City::findOrFail($request->id);
+        $city = PropertyCity::findOrFail($request->id);
         $city->status = $request->status;
         $city->save();
 

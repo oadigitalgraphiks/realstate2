@@ -148,6 +148,15 @@
                         </div>
 
                         <div class="mb-6 fv-row">
+                            <label class="form-label">{{ translate('Agent') }}</label>
+                            <select required class="form-select mb-2" data-control="select2" data-placeholder="Select an option"  name="user_id" id="user_id">
+                                    @foreach ($users as $user)
+                                       <option value="{{ $user->id }}" @if ($product->user_id == $user->id) selected @endif>-- {{ $user->name }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-6 fv-row">
                             <label class="required form-label">{{ translate('Refrence Code') }}</label>
                             <input required type="text" class="form-control mb-2" name="ref" placeholder="{{ translate('Refrence Code') }}" value="{{ $product->ref }}" />
                             <div class="text-muted fs-7">Slug must be unique.</div>

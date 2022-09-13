@@ -111,7 +111,7 @@ class ProductController extends Controller
         $query = null;
         $seller_id = null;
         $sort_search = null;
-        $products = Product::orderBy('created_at', 'desc')->where('auction_product',0);
+        $products = Product::orderBy('created_at', 'desc')->where('auction_product',0)->with('purpose','purpose_child', 'type');
         if ($request->has('user_id') && $request->user_id != null) {
             $products = $products->where('user_id', $request->user_id);
             $seller_id = $request->user_id;
@@ -517,7 +517,7 @@ class ProductController extends Controller
         $units = PropertyUnit::all();
         $beds = PropertyBed::all();
         $baths = PropertyBath::all();
-
+        $users = User::where('user_type', '=' ,'seller')->get();
         // if($product->digital == 1) {
             // return redirect('digitalproducts/' . $id . '/edit?lang='.$request->lang);
         // }
@@ -546,7 +546,7 @@ class ProductController extends Controller
 
             
 
-        return view('backend.product.products.edit', compact('beds','baths','purposes','product', 'categories', 'tags','lang','units','types','tours','conditions','furnish_types','amenities','agencies'));
+        return view('backend.product.products.edit', compact('beds','baths', 'users', 'purposes','product', 'categories', 'tags','lang','units','types','tours','conditions','furnish_types','amenities','agencies'));
      }
 
     /**
@@ -576,19 +576,26 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product                    = Product::findOrFail($id);
-        $product->category_id       = $request->category_id;
-        $product->brand_id          = $request->brand_id;
-        $product->barcode           = $request->barcode;
+        $product = Product::findOrFail($id);
+        $product->name = $request->name;
+        $product->slug = $request->slug;
+        $product->user_id = $request->user_id;
+        $product->ref = $request->ref;
+        $product->longitude = $request->longitude;
+        $product->latitude = $request->latitude;
+        $product->unit_price = $request->unit_price;
+        $product->type_id = $request->type_id;
+        $product->purpose_child_id = $request->purpose_id;
+        $product->bed_id = $request->bed_id;
+        $product->bath_id = $request->bath_id;
+        $product->tour_type_id = $request->tour_type_id;
+        $product->conditions = $request->conditions;
+        $product->amenities = $request->amenities;
+        $product->furnish_type_id = $request->furnish_type_id;
+        $product->unit_id = $request->unit_id;
+        $product->unit_value = $request->unit_value;
+        $product->description = $request->description;
 
-        if (addon_is_activated('refund_request')) {
-            if ($request->refundable != null) {
-                $product->refundable = 1;
-            }
-            else {
-                $product->refundable = 0;
-            }
-        }
 
         if($request->lang == env("DEFAULT_LANGUAGE")){
             $product->name          = $request->name;
@@ -603,269 +610,10 @@ class ProductController extends Controller
 
         // dd(Product::select("id","name","slug")->where('id', '!=', $product->id)->where('slug', $product->slug)->get(),$request->slug,$product->slug);
 
-        if(Product::where('id', '!=', $product->id)->where('slug', $product->slug)->count() > 0){
-            flash(translate('Another product exists with same slug. Please change the slug!'))->warning();
-            return back();
-        }
-
         $product->photos                 = $request->photos;
         $product->thumbnail_img          = $request->thumbnail_img;
-        $product->min_qty                = $request->min_qty;
-        $product->low_stock_quantity     = $request->low_stock_quantity;
-        $product->stock_visibility_state = $request->stock_visibility_state;
-        $product->external_link = $request->external_link;
-        $product->external_link_btn = $request->external_link_btn;
-        if($request->has('weight') && !empty($request->weight)){
-            $product->weight =$request->weight;
-        }
-        else {
-            $weight = 0;
-            $product->weight = $weight;
-        }
-
-		if($request->has('length') && !empty($request->length)){
-            $product->length = $request->length;
-        }
-        else {
-            $length = 0;
-            $product->length = $length;
-        }
-
-		if($request->has('width') && !empty($request->width)){
-            $product->width =$request->width;
-        }
-        else {
-            $width = 0;
-            $product->width = $width;
-        }
-
-		if($request->has('height') && !empty($request->height)){
-            $product->height =$request->height;
-        }
-        else {
-            $height = 0;
-            $product->height = $height;
-        }
-
-        $tags = array();
-        if($request->tags[0] != null){
-            foreach (json_decode($request->tags[0]) as $key => $tag) {
-                array_push($tags, $tag->value);
-            }
-        }
-        $product->tags           = implode(',', $tags);
-
-        $product->video_provider = $request->video_provider;
-        $product->video_link     = $request->video_link;
-        $product->unit_price     = $request->unit_price;
-        $product->discount       = $request->discount;
-        $product->discount_type     = $request->discount_type;
-
-        if ($request->date_range != null) {
-            $date_var               = explode(" to ", $request->date_range);
-            $product->discount_start_date = strtotime($date_var[0]);
-            $product->discount_end_date   = strtotime( $date_var[1]);
-        }
-
-        $product->shipping_type  = $request->shipping_type;
-        $product->est_shipping_days  = $request->est_shipping_days;
-
-        if (addon_is_activated('club_point')) {
-            if($request->earn_point) {
-                $product->earn_point = $request->earn_point;
-            }
-        }
-
-        if ($request->has('shipping_type')) {
-            if($request->shipping_type == 'free'){
-                $product->shipping_cost = 0;
-            }
-            elseif ($request->shipping_type == 'flat_rate') {
-                $product->shipping_cost = $request->flat_shipping_cost;
-            }
-            elseif ($request->shipping_type == 'product_wise') {
-                $product->shipping_cost = json_encode($request->shipping_cost);
-            }
-        }
-
-        if ($request->has('is_quantity_multiplied')) {
-            $product->is_quantity_multiplied = 1;
-        }
-        if ($request->has('cash_on_delivery')) {
-            $product->cash_on_delivery = 1;
-        }
-
-        if ($request->has('featured')) {
-            $product->featured = 1;
-        }
-
-        if ($request->has('todays_deal')) {
-            $product->todays_deal = 1;
-        }
-
-        $product->meta_title        = $request->meta_title;
-        $product->meta_description  = $request->meta_description;
-        $product->meta_img          = $request->meta_img;
-
-        if($product->meta_title == null) {
-            $product->meta_title = $product->name;
-        }
-
-        if($product->meta_description == null) {
-            $product->meta_description = strip_tags($product->description);
-        }
-
-        if($product->meta_img == null) {
-            $product->meta_img = $product->thumbnail_img;
-        }
-
-        $product->pdf = $request->pdf;
-
-        if($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0){
-            $product->colors = json_encode($request->colors);
-        }
-        else {
-            $colors = array();
-            $product->colors = json_encode($colors);
-        }
-
-        $choice_options = array();
-
-        if($request->has('choice_no')){
-            foreach ($request->choice_no as $key => $no) {
-                $str = 'choice_options_'.$no;
-
-                $item['attribute_id'] = $no;
-
-                $data = array();
-                foreach ($request[$str] as $key => $eachValue) {
-                    array_push($data, $eachValue);
-                }
-
-                $item['values'] = $data;
-                array_push($choice_options, $item);
-            }
-        }
-
-        foreach ($product->stocks as $key => $stock) {
-            $stock->delete();
-        }
-
-        if (!empty($request->choice_no)) {
-            $product->attributes = json_encode($request->choice_no);
-        }
-        else {
-            $product->attributes = json_encode(array());
-        }
-
-        $product->choice_options = json_encode($choice_options, JSON_UNESCAPED_UNICODE);
-
-        $product->published = 1;
-        if($request->button == 'unpublish' || $request->button == 'draft') {
-            $product->published = 0;
-        }
-        //combinations start
-        $options = array();
-        if($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0){
-            $colors_active = 1;
-            array_push($options, $request->colors);
-        }
-
-        if($request->has('choice_no')){
-            foreach ($request->choice_no as $key => $no) {
-                $name = 'choice_options_'.$no;
-                $data = array();
-                foreach ($request[$name] as $key => $item) {
-                    array_push($data, $item);
-                }
-                array_push($options, $data);
-            }
-        }
-
-        $combinations = Combinations::makeCombinations($options);
-        if(count($combinations[0]) > 0){
-            $product->variant_product = 1;
-            foreach ($combinations as $key => $combination){
-                $str = '';
-                foreach ($combination as $key => $item){
-                    if($key > 0 ){
-                        $str .= '-'.str_replace(' ', '', $item);
-                    }
-                    else{
-                        if($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0){
-                            $color_name = Color::where('code', $item)->first()->name;
-                            $str .= $color_name;
-                        }
-                        else{
-                            $str .= str_replace(' ', '', $item);
-                        }
-                    }
-                }
-
-                $product_stock = ProductStock::where('product_id', $product->id)->where('variant', $str)->first();
-
-                if($product_stock == null){
-                    $product_stock = new ProductStock;
-                    $product_stock->product_id = $product->id;
-                }
-                if(isset($request['price_'.str_replace('.', '_', $str)])) {
-
-                    $product_stock->variant = $str;
-                    $product_stock->price = $request['price_'.str_replace('.', '_', $str)];
-                    $product_stock->sku = $request['sku_'.str_replace('.', '_', $str)];
-                    $product_stock->qty = $request['qty_'.str_replace('.', '_', $str)];
-                    $product_stock->image = $request['img_'.str_replace('.', '_', $str)];
-
-                    $product_stock->save();
-                }
-            }
-        }
-        else{
-            $product_stock              = new ProductStock;
-            $product_stock->product_id  = $product->id;
-            $product_stock->variant     = '';
-            $product_stock->price       = $request->unit_price;
-            $product_stock->sku         = $request->sku;
-            $product_stock->qty         = $request->current_stock;
-            $product_stock->save();
-        }
-
-        if (addon_is_activated('warehouse')) {
-            $product->warehouse_id  = $product->warehouse_id;
-        }
 
         $product->save();
-
-        //Flash Deal
-        if($request->flash_deal_id) {
-            if($product->flash_deal_product){
-                $flash_deal_product = FlashDealProduct::findOrFail($product->flash_deal_product->id);
-                if(!$flash_deal_product) {
-                    $flash_deal_product = new FlashDealProduct;
-                }
-            } else {
-                $flash_deal_product = new FlashDealProduct;
-            }
-
-            $flash_deal_product->flash_deal_id = $request->flash_deal_id;
-            $flash_deal_product->product_id = $product->id;
-            $flash_deal_product->discount = $request->flash_discount;
-            $flash_deal_product->discount_type = $request->flash_discount_type;
-            $flash_deal_product->save();
-        }
-
-        //VAT & Tax
-        if($request->tax_id) {
-            ProductTax::where('product_id', $product->id)->delete();
-            foreach ($request->tax_id as $key => $val) {
-                $product_tax = new ProductTax;
-                $product_tax->tax_id = $val;
-                $product_tax->product_id = $product->id;
-                $product_tax->tax = $request->tax[$key];
-                $product_tax->tax_type = $request->tax_type[$key];
-                $product_tax->save();
-            }
-        }
 
         // Product Translations
         $product_translation                = ProductTranslation::firstOrNew(['lang' => $request->lang, 'product_id' => $product->id]);
@@ -879,7 +627,7 @@ class ProductController extends Controller
         Artisan::call('view:clear');
         Artisan::call('cache:clear');
 
-        return back();
+        return redirect('/admin/products/all');
     }
 
     /**

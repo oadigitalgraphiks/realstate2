@@ -41,8 +41,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     Route::post('/products/get_products_by_subcategory', 'ProductController@get_products_by_subcategory')->name('products.get_products_by_subcategory');
     Route::post('/bulk-product-delete', 'ProductController@bulk_product_delete')->name('bulk-product-delete');
 
-
-
     Route::resource('sellers', 'SellerController');
     Route::get('sellers_ban/{id}', 'SellerController@ban')->name('sellers.ban');
     Route::get('/sellers/destroy/{id}', 'SellerController@destroy')->name('sellers.destroy');

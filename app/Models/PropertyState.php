@@ -15,6 +15,10 @@ class PropertyState extends Model
         return $this->hasMany(PropertyCity::class,'state_id','id');
     }
 
+    public function country(){
+        return $this->belongsTo(PropertyCountry::class, 'country_id', 'id');
+    }
+
 
     public function products(){
     	return $this->hasMany(Product::class, 'state_id');
