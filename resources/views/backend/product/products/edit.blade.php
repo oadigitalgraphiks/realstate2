@@ -779,7 +779,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+            
                                             <div class="row mb-6">
                                                 <div class="col-md-6 fv-row fv-plugins-icon-container">
                                                     <label
@@ -801,6 +801,47 @@
                                                     <div class="text-muted fs-7">
                                                         {{ translate('Leave it blank if you do not use external site link') }}
                                                     </div>
+                                                </div>
+                                                <br>
+                                                <div class="mb-6 fv-row">
+                                                    <label class="form-label">{{ translate('Country') }}</label>
+                                                    <select required class="form-select mb-2" data-control="select2" data-placeholder="Select an option"  name="user_id" id="user_id">
+                                                            @foreach ($users as $user)
+                                                               <option value="{{ $user->id }}" @if ($product->user_id == $user->id) selected @endif>-- {{ $user->name }}</option>
+                                                            @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-6 fv-row">
+                                                    <label class="form-label">{{ translate('State') }}</label>
+                                                    <select required class="form-select mb-2" data-control="select2" data-placeholder="Select an option"  name="user_id" id="user_id">
+                                                            @foreach ($users as $user)
+                                                               <option value="{{ $user->id }}" @if ($product->user_id == $user->id) selected @endif>-- {{ $user->name }}</option>
+                                                            @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-6 fv-row">
+                                                    <label class="form-label">{{ translate('City') }}</label>
+                                                    <select required class="form-select mb-2" data-control="select2" data-placeholder="Select an option"  name="user_id" id="user_id">
+                                                            @foreach ($users as $user)
+                                                               <option value="{{ $user->id }}" @if ($product->user_id == $user->id) selected @endif>-- {{ $user->name }}</option>
+                                                            @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-6 fv-row">
+                                                    <label class="form-label">{{ translate('Area') }}</label>
+                                                    <select required class="form-select mb-2" data-control="select2" data-placeholder="Select an option"  name="user_id" id="user_id">
+                                                            @foreach ($users as $user)
+                                                               <option value="{{ $user->id }}" @if ($product->user_id == $user->id) selected @endif>-- {{ $user->name }}</option>
+                                                            @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-6 fv-row">
+                                                    <label class="form-label">{{ translate('Nested Area') }}</label>
+                                                    <select required class="form-select mb-2" data-control="select2" data-placeholder="Select an option"  name="user_id" id="user_id">
+                                                            @foreach ($users as $user)
+                                                               <option value="{{ $user->id }}" @if ($product->user_id == $user->id) selected @endif>-- {{ $user->name }}</option>
+                                                            @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                             <br>
