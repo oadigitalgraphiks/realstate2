@@ -28,7 +28,7 @@ Route::group(['prefix' => 'v2', 'middleware' => ['app_language']], function() {
     Route::get('property-subscribers/delete/{id}','Api\V2\PropertySubscriberController@destroy');
 
     //Agents
-    Route::post('agency/dashboard/create-property','Api\V2\PropertyAgencyController@createProperty');
+    Route::post('agency/dashboard/create-property','Api\V2\PropertyAgencyController@createProperty')->middleware('auth:sanctum');
  
  
     Route::get('property-agencies','Api\V2\PropertyAgencyController@index');
@@ -36,9 +36,7 @@ Route::group(['prefix' => 'v2', 'middleware' => ['app_language']], function() {
     Route::get('property-agencies/{id}','Api\V2\PropertyAgencyController@get');
     Route::get('property-agencies-featured','Api\V2\PropertyAgencyController@featured');
  
-
     
-
     //Property Locations
     Route::get('property-locations/nested-areas/{id}','Api\V2\PropertyLocationsController@get_nested_areas');
     Route::get('property-locations/areas/{id}','Api\V2\PropertyLocationsController@get_areas');
