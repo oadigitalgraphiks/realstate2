@@ -164,7 +164,6 @@ class PropertyAgencyController extends Controller
     public function get($slug){
        $shops = Shop::where('slug',$slug)->get();
         if($shops){
-     
             return new PropertyAgencyDetailCollection($shops);
         }
     }
@@ -179,8 +178,7 @@ class PropertyAgencyController extends Controller
 
         return response()->json([
             'message' => 'Not Found'
-        ],401);
-        
+        ],401);  
      }
 
 

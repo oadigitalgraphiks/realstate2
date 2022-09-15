@@ -111,9 +111,12 @@ class PropertyLocationsController extends Controller
     public function get_state(Request $request,$slug)
     {
         $count = PropertyCountry::where('slug',$slug)->first();
+
+     
+
         if($count){
             if($request->has('purpose')){
-                    $data = PropertyState::where('country_id',299)->get();
+                    $data = PropertyState::where('country_id',229)->get();
                     return new PropertyLocationCollection($data);
             }
         }
