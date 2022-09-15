@@ -184,7 +184,13 @@
                                                 <!--end::Rating-->
 
                                                 <td class="text-center">
-                                                    <a href="{{ route('property_reports.edit', ['id' => $property_report->id, 'lang' => env('DEFAULT_LANGUAGE')]) }}"
+                                                    <a href="#" onclick="function show_modal(){
+                                                        $('#details{{$property_report->id}}').modal('show', {
+                                                            backdrop: 'static'
+                                                        });
+                                                        
+                                                    }
+                                                    show_modal()"
                                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
                                                         <span class="svg-icon svg-icon-3">
@@ -229,6 +235,33 @@
 
                                                 <!--end::Action=-->
                                             </tr>
+                                             <!-- Modal -->
+                                             <div class="modal fade" id="details{{$property_report->id}}" tabindex="-1" aria-labelledby="details{{$property_report->id}}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title h6">{{translate('Delete Confirmation')}}</h4>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="mt-1"><strong>Name:</strong> {{$property_report->name}}</p>
+                                                            <p class="mt-1"><strong>Agency:</strong>   @if (isset($property_report->agent->shop->name))
+                                                                {{ $property_report->agent->shop->name }}
+                                                            @else
+                                                                —
+                                                            @endif</p>
+                                                            <p class="mt-1"><strong>Property:</strong> {{$property_report->property->name}}</p>
+                                                            <p class="mt-1"><strong>Email:</strong> {{$property_report->email}}</p>
+                                                            <p class="mt-1"><strong>Message:</strong> {{$property_report->message}}</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">{{ translate('Cancel') }}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal -->
                                         @endforeach
                                         <!--end::Table row-->
                                     </tbody>

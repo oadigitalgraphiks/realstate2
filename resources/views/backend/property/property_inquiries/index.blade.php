@@ -102,8 +102,6 @@
                                             <th class="text-center min-w-75px">{{ translate('Agency') }}</th>
                                             <th class="text-center min-w-175px">{{ translate('Property') }}</th>
                                             <th class="text-center min-w-150px">{{ translate('Email') }}</th>
-                                            <th class="text-center min-w-150px">{{ translate('Phone') }}</th>
-                                            <th class="text-center min-w-200px">{{ translate('Message') }}</th>
                                             <th class="text-center min-w-150px">{{ translate('Actions') }}</th>
                                         </tr>
                                         <!--end::Table row-->
@@ -130,7 +128,13 @@
                                                         <!--end::Thumbnail-->
                                                         <div class="ms-5">
                                                             <!--begin::Title-->
-                                                            <a href="{{ route('property_inquiries.edit', ['id' => $property_inquiry->id, 'lang' => env('DEFAULT_LANGUAGE')]) }}"
+                                                            <a href="#" onclick="function show_modal(){
+                                                                $('#details{{$property_inquiry->id}}').modal('show', {
+                                                                    backdrop: 'static'
+                                                                });
+                                                                
+                                                            }
+                                                            show_modal()"
                                                                 class="text-gray-800 text-hover-primary fs-5 fw-bolder mb-1"
                                                                 data-kt-ecommerce-property_type-filter="property_type_name">
                                                                 <div class="badge badge-light-success">
@@ -166,23 +170,17 @@
                                                         {{ $property_inquiry->email }}
                                                     </span>
                                                 </td>
-                                                <td class="text-center pe-0" data-order="32">
-                                                    <span class="fw-bolder ms-3">
-                                                        {{ $property_inquiry->phone }}
-                                                    </span>
-                                                </td>
-                                                <!--end::Qty=-->
-                                                <!--begin::Price=-->
-                                                <td class="text-center pe-0" data-order="2">
-                                                    <span>
-                                                            {{ $property_inquiry->message }}
-                                                    </span>
-                                                </td>
                                                 <!--end::Price=-->
                                                 <!--end::Rating-->
 
                                                 <td class="text-center">
-                                                    <a href="{{ route('property_inquiries.edit', ['id' => $property_inquiry->id, 'lang' => env('DEFAULT_LANGUAGE')]) }}"
+                                                    <a href="#" onclick="function show_modal(){
+                                                        $('#details{{$property_inquiry->id}}').modal('show', {
+                                                            backdrop: 'static'
+                                                        });
+                                                        
+                                                    }
+                                                    show_modal()"
                                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
                                                         <span class="svg-icon svg-icon-3">
@@ -227,6 +225,34 @@
 
                                                 <!--end::Action=-->
                                             </tr>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="details{{$property_inquiry->id}}" tabindex="-1" aria-labelledby="details{{$property_inquiry->id}}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title h6">{{translate('Delete Confirmation')}}</h4>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="mt-1"><strong>Name:</strong> {{$property_inquiry->name}}</p>
+                                                            <p class="mt-1"><strong>Agency:</strong>  @if (isset($property_inquiry->agent->shop->name))
+                                                                {{ $property_inquiry->agent->shop->name }}
+                                                            @else
+                                                                —
+                                                            @endif</p>
+                                                            <p class="mt-1"><strong>Property:</strong> {{$property_inquiry->property->name}}</p>
+                                                            <p class="mt-1"><strong>Email:</strong> {{$property_inquiry->email}}</p>
+                                                            <p class="mt-1"><strong>Phone:</strong> {{$property_inquiry->phone}}</p>
+                                                            <p class="mt-1"><strong>Message:</strong> {{$property_inquiry->message}}</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">{{ translate('Cancel') }}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal -->
                                         @endforeach
                                         <!--end::Table row-->
                                     </tbody>
@@ -274,6 +300,13 @@
                     AIZ.plugins.notify('danger', '{{ translate('Something went wrong') }}');
                 }
             });
+
+            function show_modal(url) {
+            $('#details'+url).modal('show', {
+                backdrop: 'static'
+            });
+            document.getElementById('confirmationunban').setAttribute('href', url);
+        }
         }
     </script>
 @endsection
