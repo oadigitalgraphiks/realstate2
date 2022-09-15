@@ -18,7 +18,6 @@ class PropertyAgencyController extends Controller
 
     public function createProperty(Request $request)
     {
-
         $validator = Validator::make($request->all(),[
             'title' => 'required|string',
             'slug' => 'required|string',
@@ -26,28 +25,28 @@ class PropertyAgencyController extends Controller
             'price' => 'required|integer',
             'reference' => 'required|string',
             'sqft' =>  'required|integer',
-            'purpose' => 'required|integer',
-            'type' => 'required|integer',
+            'purpose' => 'required|integer|exists:property_purposes,id',
+            'purpose_child' => 'required|integer|exists:property_purposes,id',
+            'type' => 'required|integer|exists:property_types,id',
             'meta_title' => 'string',
             'description' => 'string',
             'longitude' => 'string',
             'latitude' => 'string',
-            'bed' => 'integer',
-            'bath' => 'integer',	 
-            'tour_type' => 'integer',
-            'furnish_type' => 'integer',
+            'bed' => 'integer|exists:property_beds,id',
+            'bath' => 'integer|exists:property_baths,id',	 
+            'tour_type' => 'integer|exists:property_tour_types,id',	
+            'furnish_type' => 'integer|exists:property_furnish_types,id',	
             'amenities' => 'string',
             'conditions' => 'string',
             'tags' => 'string',
             'thumbnail_image' => 'string',
             'photos' => 'string',
-            'country' => 'integer',
-            'state' => 'integer',
-            'city' => 'integer',
-            'area' =>  'integer',
-            'nested_area' =>  'integer',   
+            'country' => 'integer|exists:property_areas,id',
+            'state' => 'integer|exists:property_states,id',
+            'city' => 'integer|exists:property_cities,id',
+            'area' =>  'integer|exists:property_areas,id',	
+            'nested_area' =>  'integer|exists:property_nested_areas,id',	
          ]);
-
 
          if($validator->fails()){
             return response()->json([
@@ -56,17 +55,22 @@ class PropertyAgencyController extends Controller
             ],401);
          }
 
+         $user = $request->user();
 
          $data = [
-            'title' => $request->title,
+            'name' => $request->title,
             'slug' => $request->slug,
             'meta_title' => $request->title,
             'meta_description' => $request->meta_description,
-            'price' => $request->price,
-            'reference' => $request->reference,
-            'sqft' => $request->sqft,
-            'purpose' => $request->purpose,
-            'type' => $request->type,
+            'unit_price' => $request->price,
+            'ref' => $request->reference,
+            'search_sqft' => $request->sqft,
+            'purpose_id' => $request->purpose,
+            'purpose_child_id' => $request->purpose_child,
+            'type_id' => $request->type,
+            'user_id' => $user->id,
+            'colors' => '[]',
+            'choice_options' => '[]',
          ];
 
          if($request->has('description')){
@@ -82,19 +86,19 @@ class PropertyAgencyController extends Controller
          }
 
          if($request->has('bed')){
-            $data['bed'] = $request->bed;
+            $data['bed_id'] = $request->bed;
          }
 
          if($request->has('bath')){
-            $data['bath'] = $request->bed;
+            $data['bath_id'] = $request->bed;
          }
 
          if($request->has('tour_type')){
-            $data['tour_type'] = $request->tour_type;
+            $data['tour_type_id'] = $request->tour_type;
          }
 
          if($request->has('furnish_type')){
-            $data['furnish_type'] = $request->furnish_type;
+            $data['furnish_type_id'] = $request->furnish_type;
          }
 
          if($request->has('amenities')){
@@ -118,32 +122,29 @@ class PropertyAgencyController extends Controller
          }
 
          if($request->has('country')){
-            $data['country'] = $request->country;
+            $data['country_id'] = $request->country;
          }
 
          if($request->has('state')){
-            $data['state'] = $request->state;
+            $data['state_id'] = $request->state;
          }
 
          if($request->has('city')){
-            $data['city'] = $request->city;
+            $data['city_id'] = $request->city;
          }
 
          if($request->has('area')){
-            $data['area'] = $request->area;
+            $data['area_id'] = $request->area;
          }
 
          if($request->has('nested_area')){
-            $data['nested_area'] = $request->nested_area;
+            $data['nested_area_id'] = $request->nested_area;
          }
-
          
          $product = Product::create($data);
          return new PropertyDetailCollection(Product::where('id', $product->id)->get());
 
     }
-
-
 
 
     public function index()
@@ -152,12 +153,14 @@ class PropertyAgencyController extends Controller
         return new PropertyAgencyCollection($shops); 
     }
 
+
     public function featured()
     {
         $shops = Shop::where('featured',1)->get();
         return new PropertyAgencyCollection($shops); 
     }
 
+    
     public function get($slug){
        $shops = Shop::where('slug',$slug)->get();
         if($shops){
